@@ -41,6 +41,7 @@ spec:
         namespace: argocd #TODO: check this
       syncPolicy:
         automated:
+          prune: true
           selfHeal: true
         syncOptions:
           - ServerSideApply=true # Big CRDs.
