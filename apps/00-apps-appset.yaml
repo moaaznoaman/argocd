@@ -37,10 +37,10 @@ spec:
       - repoURL: git@github.com:moaaznoaman/argocd.git
         path: charts/pods
         targetRevision: HEAD
-        helm:
-          valueFiles:
-            - "charts/pods/values.yaml"
-            - "../../environments/prod/values.yaml"
+        # helm:
+        #   valueFiles:
+        #     - "charts/pods/values.yaml"
+        #     - "../../environments/prod/values.yaml"
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{chartName}}" #TODO: check this
