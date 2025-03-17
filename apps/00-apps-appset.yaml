@@ -9,12 +9,15 @@ spec:
   # goTemplate: true
   # goTemplateOptions: ["missingkey=error"]
   generators:
-    - git:
-        repoURL: https://github.com/moaaznoaman/argocd.git
-        revision: HEAD
-        directories:
-          # here it will read the paths under configs and the subpaths under the config paths
-          - path: environments/*/*
+    - list:
+      elements:
+        chartName: "onlinechart"
+    # - git:
+    #     repoURL: https://github.com/moaaznoaman/argocd.git
+    #     revision: HEAD
+    #     directories:
+    #       # here it will read the paths under configs and the subpaths under the config paths
+    #       - path: environments/*/*
     # - clusters:
     #     selector:
     #       matchExpressions:
@@ -26,21 +29,21 @@ spec:
 
   template:
     metadata:
-      name: "{{path.basename}}-pods"
+      name: "{{chartName}}"
       namespace: argocd
     spec:
       project: default
       sources:
       - repoURL: https://github.com/moaaznoaman/argocd.git
-        path: charts/onlinechart
+        path: charts/{{chartName}}
         targetRevision: HEAD
         helm:
           valueFiles:
-            - "environments/{{path.basename}}/values.yaml"
-            - "charts/pods/values.yaml"
+            - "values.yaml"
+            # - "../../environments/{{path.basename}}/values.yaml"
       destination:
         server: https://kubernetes.default.svc
-        namespace: "{{path.basename}}" #TODO: check this
+        namespace: "{{chartName}}" #TODO: check this
       syncPolicy:
         automated:
           prune: true
