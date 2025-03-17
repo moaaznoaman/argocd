@@ -10,11 +10,11 @@ spec:
   # goTemplateOptions: ["missingkey=error"]
   generators:
     - git:
-      repoURL: https://github.com:moaaznoaman/argocd.git
-      revision: HEAD
-      directories:
-        # here it will read the paths under configs and the subpaths under the config paths
-        - path: environments/*/*
+        repoURL: https://github.com:moaaznoaman/argocd.git
+        revision: HEAD
+        directories:
+          # here it will read the paths under configs and the subpaths under the config paths
+          - path: environments/*/*
     # - clusters:
     #     selector:
     #       matchExpressions:
@@ -31,19 +31,13 @@ spec:
     spec:
       project: default
       sources:
-      # - repoURL: git@github.com:moaaznoaman/argocd-variables.git
-      #   targetRevision: HEAD  
-      #   # targetRevision: "{{ .metadata.labels.environmentsBranch }}"
-      #   ref: values
       - repoURL: https://github.com:moaaznoaman/argocd.git
-        targetRevision: HEAD
         path: charts/onlinechart
+        targetRevision: HEAD
         helm:
           valueFiles:
             - "environments/{{path.basename}}/values.yaml"
             - "charts/pods/values.yaml"
-            # - "../../clusters/{{ .metadata.labels.suite }}/namespace-values.yaml"
-            # - "$values/environments/{{ .metadata.labels.env }}/fsps/{{ .name }}/gitops/namespace-values.yaml"
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{path.basename}}" #TODO: check this
@@ -51,7 +45,7 @@ spec:
         automated:
           prune: true
           selfHeal: true
-        syncOptions:
-          - ServerSideApply=true # Big CRDs.
-          - ApplyOutOfSyncOnly=true
-          - preserveResourcesOnDeletion=true
+        # syncOptions:
+        #   - ServerSideApply=true # Big CRDs.
+        #   - ApplyOutOfSyncOnly=true
+        #   - preserveResourcesOnDeletion=true
