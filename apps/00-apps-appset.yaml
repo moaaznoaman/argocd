@@ -29,6 +29,7 @@ spec:
       - repoURL: git@github.com:moaaznoaman/argocd.git
         targetRevision: "HEAD" # "{{ .metadata.labels.gitopsBranch }}"
         path: "charts/pods"
+        releaseName: "pods-test-helm"
         helm:
           ignoreMissingValueFiles: true
           valueFiles:
