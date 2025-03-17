@@ -34,10 +34,9 @@ spec:
       #   # targetRevision: "{{ .metadata.labels.environmentsBranch }}"
       #   ref: values
       - repoURL: git@github.com:moaaznoaman/argocd.git
-        targetRevision: "HEAD"
-        path: pods
+        targetRevision: HEAD
+        path: charts/pods
         helm:
-          ignoreMissingValueFiles: true
           valueFiles:
             - "environments/{{path.basename}}/values.yaml"
             - "charts/pods/values.yaml"
