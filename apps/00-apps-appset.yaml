@@ -20,7 +20,7 @@ spec:
     metadata:
       name: "{{ .metadata.labels.env }}-pods"
     spec:
-      project: default
+      project: infra
       sources:
       # - repoURL: git@github.com:moaaznoaman/argocd-variables.git
       #   targetRevision: HEAD  
