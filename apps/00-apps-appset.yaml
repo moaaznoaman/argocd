@@ -40,7 +40,7 @@ spec:
         helm:
           valueFiles:
             - "values.yaml"
-        #     - "../../environments/prod/values.yaml"
+            - "../../environments/prod/values.yaml"
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{chartName}}" #TODO: check this
