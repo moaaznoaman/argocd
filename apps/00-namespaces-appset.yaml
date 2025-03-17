@@ -1,5 +1,5 @@
 apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
+kind: Application
 metadata:
   name: namespaces
   annotations:
@@ -22,10 +22,10 @@ spec:
     spec:
       project: default
       sources:
-      - repoURL: git@github.com:moaaznoaman/argocd-variables.git
-        targetRevision: HEAD  
-        # targetRevision: "{{ .metadata.labels.environmentsBranch }}"
-        ref: values
+      # - repoURL: git@github.com:moaaznoaman/argocd-variables.git
+      #   targetRevision: HEAD  
+      #   # targetRevision: "{{ .metadata.labels.environmentsBranch }}"
+      #   ref: values
       - repoURL: git@github.com:moaaznoaman/argocd.git
         targetRevision: "HEAD" # "{{ .metadata.labels.gitopsBranch }}"
         path: "charts/namespaces"
