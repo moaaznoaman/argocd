@@ -1,0 +1,8 @@
+namespaces:
+  - system
+  - ingress
+  - monitoring
+  - test
+  - moaaz
+
+additionalNamespaces: []
