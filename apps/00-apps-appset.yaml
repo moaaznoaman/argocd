@@ -11,7 +11,7 @@ spec:
   generators:
     - list:
         elements:
-          - chartName: "pods"
+          - chartName: "podschart"
     # - git:
     #     repoURL: https://github.com/moaaznoaman/argocd.git
     #     revision: HEAD
@@ -39,7 +39,7 @@ spec:
         targetRevision: HEAD
         # helm:
         #   valueFiles:
-            # - "values.yaml"
+            - "charts/pods/values.yaml"
             # - "../../environments/{{path.basename}}/values.yaml"
       destination:
         server: https://kubernetes.default.svc
