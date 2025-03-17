@@ -1,8 +1,4 @@
 pods:
-  - system
   - prod
-  - monitoring
-  - test
-  - moaaz
 
 additionalNamespaces: []
