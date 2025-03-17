@@ -21,10 +21,9 @@ spec:
     - namespace: test
     - namespace: dev 
     - namespace: prod
-  
   template:
     metadata:
-      name: "{{ namespace }}-pods"
+      name: "{{ .metadata.labels.env }}-pods"
     spec:
       project: infra
       sources:
