@@ -1,0 +1,8 @@
+pods:
+  - system
+  - ingress
+  - monitoring
+  - test
+  - moaaz
+
+additionalNamespaces: []

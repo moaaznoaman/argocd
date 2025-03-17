@@ -25,7 +25,7 @@ spec:
 
   template:
     metadata:
-      name: "{{path[1]}}-{{path.basename}}-pods"
+      name: "{{path.basename}}-pods"
     spec:
       project: infra
       sources:
@@ -34,18 +34,18 @@ spec:
       #   # targetRevision: "{{ .metadata.labels.environmentsBranch }}"
       #   ref: values
       - repoURL: git@github.com:moaaznoaman/argocd.git
-        targetRevision: "HEAD" # "{{ .metadata.labels.gitopsBranch }}"
+        targetRevision: "HEAD"
         path: "charts/pods"
         helm:
           ignoreMissingValueFiles: true
           valueFiles:
+            - "environments/{{path.basename}}/values.yaml"
             - "charts/pods/values.yaml"
-            - "$values/environments/{{ .metadata.labels.env }}/values.yaml"
             # - "../../clusters/{{ .metadata.labels.suite }}/namespace-values.yaml"
             # - "$values/environments/{{ .metadata.labels.env }}/fsps/{{ .name }}/gitops/namespace-values.yaml"
       destination:
         server: https://kubernetes.default.svc
-        namespace: helm-charts #TODO: check this
+        namespace: "{{path.basename}}" #TODO: check this
       syncPolicy:
         automated:
           prune: true
