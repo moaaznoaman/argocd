@@ -2,11 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: pods-appset
+  namespace: argocd
   # annotations:
   #   argocd.argoproj.io/sync-wave: "-1"
 spec:
-  goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
+  # goTemplate: true
+  # goTemplateOptions: ["missingkey=error"]
   generators:
     - git:
       repoURL: https://github.com:moaaznoaman/argocd.git
