@@ -32,7 +32,7 @@ spec:
         helm:
           ignoreMissingValueFiles: true
           valueFiles:
-            - "values.yaml"
+            - "../charts/namespaces/values.yaml"
             - "$values/environments/{{ .metadata.labels.env }}/values.yaml"
             # - "../../clusters/{{ .metadata.labels.suite }}/namespace-values.yaml"
             # - "$values/environments/{{ .metadata.labels.env }}/fsps/{{ .name }}/gitops/namespace-values.yaml"
