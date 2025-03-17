@@ -1,4 +1,4 @@
-namespaces:
+pods:
   - system
   - ingress
   - monitoring

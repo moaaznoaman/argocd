@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: namespaces
+  name: pods-appset
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
@@ -18,7 +18,7 @@ spec:
         #       }
   template:
     metadata:
-      name: "{{ .metadata.labels.env }}-namespaces"
+      name: "{{ .metadata.labels.env }}-pods"
     spec:
       project: default
       sources:
@@ -28,17 +28,17 @@ spec:
       #   ref: values
       - repoURL: git@github.com:moaaznoaman/argocd.git
         targetRevision: "HEAD" # "{{ .metadata.labels.gitopsBranch }}"
-        path: "charts/namespaces"
+        path: "charts/pods"
         helm:
           ignoreMissingValueFiles: true
           valueFiles:
-            - "../charts/namespaces/values.yaml"
+            - "values.yaml"
             - "$values/environments/{{ .metadata.labels.env }}/values.yaml"
             # - "../../clusters/{{ .metadata.labels.suite }}/namespace-values.yaml"
             # - "$values/environments/{{ .metadata.labels.env }}/fsps/{{ .name }}/gitops/namespace-values.yaml"
       destination:
         server: https://kubernetes.default.svc
-        namespace: argocd #TODO: check this
+        namespace: test #TODO: check this
       syncPolicy:
         automated:
           prune: true
