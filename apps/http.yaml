@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: http-pod
+  namespace: default
+spec:
+  containers:
+  - image: httpd:latest
+    imagePullPolicy: IfNotPresent
+    name: http
+    # securityContext:
+    #   privileged: true
+    # resources:
+    #   requests:
+    #     cpu: 100m
