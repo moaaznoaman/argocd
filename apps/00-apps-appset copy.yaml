@@ -35,7 +35,7 @@ spec:
       #   ref: values
       - repoURL: git@github.com:moaaznoaman/argocd.git
         targetRevision: "HEAD"
-        path: "charts/pods"
+        path: pods
         helm:
           ignoreMissingValueFiles: true
           valueFiles:
