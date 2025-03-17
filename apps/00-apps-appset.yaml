@@ -38,7 +38,7 @@ spec:
             # - "$values/environments/{{ .metadata.labels.env }}/fsps/{{ .name }}/gitops/namespace-values.yaml"
       destination:
         server: https://kubernetes.default.svc
-        namespace: test #TODO: check this
+        namespace: helm-charts #TODO: check this
       syncPolicy:
         automated:
           prune: true
