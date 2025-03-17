@@ -22,10 +22,10 @@ spec:
     spec:
       project: infra
       sources:
-      # - repoURL: git@github.com:moaaznoaman/argocd-variables.git
-      #   targetRevision: HEAD  
-      #   # targetRevision: "{{ .metadata.labels.environmentsBranch }}"
-      #   ref: values
+      - repoURL: git@github.com:moaaznoaman/argocd-variables.git
+        targetRevision: HEAD  
+        # targetRevision: "{{ .metadata.labels.environmentsBranch }}"
+        ref: values
       - repoURL: git@github.com:moaaznoaman/argocd.git
         targetRevision: "HEAD" # "{{ .metadata.labels.gitopsBranch }}"
         path: "charts/pods"
