@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: online-appset
+  name: pods-appset
   namespace: argocd
   # annotations:
   #   argocd.argoproj.io/sync-wave: "-1"
@@ -11,7 +11,7 @@ spec:
   generators:
     - list:
         elements:
-          - chartName: "onlinechart"
+          - chartName: "pods"
     # - git:
     #     repoURL: https://github.com/moaaznoaman/argocd.git
     #     revision: HEAD
@@ -30,12 +30,12 @@ spec:
   template:
     metadata:
       name: "{{chartName}}"
-      namespace: argocd
+      # namespace: argocd
     spec:
       project: default
       sources:
-      - repoURL: https://github.com/moaaznoaman/argocd.git
-        path: charts/{{chartName}}
+      - repoURL: git@github.com:moaaznoaman/argocd.git
+        path: charts/pods
         targetRevision: HEAD
         # helm:
         #   valueFiles:
