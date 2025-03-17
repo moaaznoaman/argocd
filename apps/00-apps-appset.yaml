@@ -10,8 +10,8 @@ spec:
   # goTemplateOptions: ["missingkey=error"]
   generators:
     - list:
-      elements:
-        chartName: "onlinechart"
+        elements:
+          - chartName: "onlinechart"
     # - git:
     #     repoURL: https://github.com/moaaznoaman/argocd.git
     #     revision: HEAD
@@ -37,9 +37,9 @@ spec:
       - repoURL: https://github.com/moaaznoaman/argocd.git
         path: charts/{{chartName}}
         targetRevision: HEAD
-        helm:
-          valueFiles:
-            - "values.yaml"
+        # helm:
+        #   valueFiles:
+            # - "values.yaml"
             # - "../../environments/{{path.basename}}/values.yaml"
       destination:
         server: https://kubernetes.default.svc
