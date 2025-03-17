@@ -39,7 +39,7 @@ spec:
         targetRevision: HEAD
         # helm:
         #   valueFiles:
-        #     - "charts/pods/values.yaml"
+            - "charts/pods/values.yaml"
         #     - "../../environments/prod/values.yaml"
       destination:
         server: https://kubernetes.default.svc
