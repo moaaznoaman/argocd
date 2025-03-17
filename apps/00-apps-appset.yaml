@@ -35,7 +35,7 @@ spec:
       #   ref: values
       - repoURL: git@github.com:moaaznoaman/argocd.git
         targetRevision: HEAD
-        path: charts/pods
+        path: charts/onlinechart
         helm:
           valueFiles:
             - "environments/{{path.basename}}/values.yaml"
