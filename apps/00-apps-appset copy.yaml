@@ -7,13 +7,13 @@ metadata:
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
-  # generators:
-  #   - git:
-  #     repoURL: git@github.com:moaaznoaman/argocd.git
-  #     revision: HEAD
-  #     directories:
-  #       # here it will read the paths under configs and the subpaths under the config paths
-  #       - path: demo/configs/*/*
+  generators:
+    - git:
+      repoURL: git@github.com:moaaznoaman/argocd.git
+      revision: HEAD
+      directories:
+        # here it will read the paths under configs and the subpaths under the config paths
+        - path: environments/*/*
     # - clusters:
     #     selector:
     #       matchExpressions:
@@ -25,7 +25,7 @@ spec:
 
   template:
     metadata:
-      name: "test-pods"
+      name: "{{path[1]}}-{{path.basename}}-pods"
     spec:
       project: infra
       sources:
