@@ -33,7 +33,7 @@ spec:
       labels:
         env: "{{path.basename}}"
         app: "infra"
-        prod: "true"
+        # prod: "true"
         # envType: "{{ .metadata.labels.env_type }}"
     spec:
       project: infra
