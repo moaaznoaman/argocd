@@ -37,13 +37,16 @@ spec:
     spec:
       project: infra
       sources:
+      - repoURL: git@ssh.dev.azure.com:v3/advance52/filia/filia-environments
+        targetRevision: HEAD
+        ref: values
       - repoURL: git@github.com:moaaznoaman/argocd.git
         path: charts/pods
         targetRevision: HEAD
         helm:
           valueFiles:
             - "values.yaml"
-            - "../../environments/{{path.basename}}/values.yaml"
+            - "$values/environments/{{path.basename}}/values.yaml"
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{path.basename}}" #TODO: check this
