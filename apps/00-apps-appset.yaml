@@ -26,11 +26,9 @@ spec:
     #     directories:
     #       # here it will read the paths under configs and the subpaths under the config paths
     #       - path: environments/*/*
-
-
   template:
     metadata:
-      name: "{{chartName}}"
+      name: "podsChart"
       # namespace: argocd
     spec:
       project: default
@@ -44,7 +42,7 @@ spec:
             - "../../environments/prod/values.yaml"
       destination:
         server: https://kubernetes.default.svc
-        namespace: "{{chartName}}" #TODO: check this
+        namespace: "podsChart" #TODO: check this
       syncPolicy:
         automated:
           prune: true
