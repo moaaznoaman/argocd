@@ -41,6 +41,9 @@ spec:
       - repoURL: git@github.com:moaaznoaman/argocd-variables.git
         targetRevision: HEAD
         ref: values
+      - repoURL: git@github.com:moaaznoaman/argocd-variables-new.git
+        targetRevision: HEAD
+        ref: valuesnew  
       - repoURL: git@github.com:moaaznoaman/argocd.git
         path: charts/pods
         targetRevision: HEAD
@@ -48,6 +51,7 @@ spec:
           valueFiles:
             - "values.yaml"
             - "$values/environments/{{path.basename}}/values.yaml"
+            - "$valuesnew/environments/{{path.basename}}/values.yaml"
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{path.basename}}" #TODO: check this
