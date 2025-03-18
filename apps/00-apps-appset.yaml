@@ -30,8 +30,12 @@ spec:
     metadata:
       name: "pods-{{path.basename}}"
       namespace: argocd
+      labels:
+        env: "{{path.basename}}"
+        app: "infra"
+        # envType: "{{ .metadata.labels.env_type }}"
     spec:
-      project: default
+      project: infra
       sources:
       - repoURL: git@github.com:moaaznoaman/argocd.git
         path: charts/pods
