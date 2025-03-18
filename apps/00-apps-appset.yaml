@@ -13,7 +13,7 @@ spec:
         repoURL: git@github.com:moaaznoaman/argocd.git
         revision: HEAD
         directories:
-          - path: environments/*/*
+          - path: environments/*
     # - clusters:
     #     selector:
     #       matchExpressions:
@@ -29,7 +29,7 @@ spec:
   template:
     metadata:
       name: "{{path[2]}}-{{path.basename}}"
-      # namespace: argocd
+      namespace: argocd
     spec:
       project: default
       sources:
