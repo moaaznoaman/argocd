@@ -10,10 +10,10 @@ spec:
     imagePullPolicy: IfNotPresent
     name: http
 {{- end }}
-{{- range .Values.additionalNamespaces }}
----
+# {{- range .Values.additionalNamespaces }}
+# ---
 # apiVersion: v1
 # kind: Namespace
 # metadata:
-#   name: '{{ . }}'
+#   name: '{{ .Values.environment }}'
 # {{- end }}

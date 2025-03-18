@@ -17,6 +17,11 @@ spec:
                 operator: In,
                 values: ["in-cluster"],
               }
+      - git:
+        repoURL: git@github.com:moaaznoaman/argocd.git
+        revision: HEAD
+        directories:
+          - path: environments/*/*
     # - list:
     #     elements:
     #       - chartName: "podschart"
@@ -28,7 +33,7 @@ spec:
     #       - path: environments/*/*
   template:
     metadata:
-      name: "podschart"
+      name: "podschart-{{path.basename}}"
       # namespace: argocd
     spec:
       project: default
@@ -39,10 +44,10 @@ spec:
         helm:
           valueFiles:
             - "values.yaml"
-            - "../../environments/prod/values.yaml"
+            - "../../environments/{{path.basename}}/values.yaml"
       destination:
         server: https://kubernetes.default.svc
-        namespace: "podschart" #TODO: check this
+        namespace: "podschart-{{path.basename}}" #TODO: check this
       syncPolicy:
         automated:
           prune: true

@@ -1,8 +1,9 @@
 pods:
   - system
-  - ingress
+  - dev
   - monitoring
-  - test
   - moaaz
+
+environment: "dev" 
 
 additionalNamespaces: []
