@@ -1,6 +1,6 @@
 pods:
   - test
 
-environment: "dev" 
+environment: "test" 
 
 additionalNamespaces: []
