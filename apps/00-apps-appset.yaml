@@ -37,7 +37,7 @@ spec:
     spec:
       project: infra
       sources:
-      - repoURL: git@ssh.dev.azure.com:v3/advance52/filia/filia-environments
+      - repoURL: git@github.com:moaaznoaman/argocd-variables.git
         targetRevision: HEAD
         ref: values
       - repoURL: git@github.com:moaaznoaman/argocd.git
