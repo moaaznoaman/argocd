@@ -10,7 +10,7 @@ spec:
   # goTemplateOptions: ["missingkey=error"]
   generators:
     - git:
-        repoURL: git@github.com:moaaznoaman/argocd.git
+        repoURL: git@github.com:moaaznoaman/argocd-variables.git
         revision: HEAD
         directories:
           - path: environments/*
