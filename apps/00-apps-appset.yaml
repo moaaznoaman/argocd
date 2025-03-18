@@ -28,7 +28,7 @@ spec:
     #       - path: environments/*/*
   template:
     metadata:
-      name: "podsChart"
+      name: "podschart"
       # namespace: argocd
     spec:
       project: default
@@ -42,7 +42,7 @@ spec:
             - "../../environments/prod/values.yaml"
       destination:
         server: https://kubernetes.default.svc
-        namespace: "podsChart" #TODO: check this
+        namespace: "podschart" #TODO: check this
       syncPolicy:
         automated:
           prune: true
