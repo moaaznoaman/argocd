@@ -33,7 +33,7 @@ spec:
     #       - path: environments/*/*
   template:
     metadata:
-      name: "podschart-{{path.basename}}"
+      name: "podschart-{{path[2]}}"
       # namespace: argocd
     spec:
       project: default
@@ -47,7 +47,7 @@ spec:
             - "../../environments/{{path.basename}}/values.yaml"
       destination:
         server: https://kubernetes.default.svc
-        namespace: "podschart-{{path.basename}}" #TODO: check this
+        namespace: "podschart-{{path[2]}}" #TODO: check this
       syncPolicy:
         automated:
           prune: true
