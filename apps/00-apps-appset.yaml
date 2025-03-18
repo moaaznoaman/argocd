@@ -9,21 +9,19 @@ spec:
   # goTemplate: true
   # goTemplateOptions: ["missingkey=error"]
   generators:
-    - matrix:
-        generators:
-          - clusters:
-              selector:
-                matchExpressions:
-                  - {
-                      key: "name",
-                      operator: In,
-                      values: ["in-cluster"],
-                    }
-          - git:
-            repoURL: git@github.com:moaaznoaman/argocd.git
-            revision: HEAD
-            directories:
-              - path: environments/*/*
+    - clusters:
+        selector:
+          matchExpressions:
+            - {
+                key: "name",
+                operator: In,
+                values: ["in-cluster"],
+              }
+    - git:
+      repoURL: git@github.com:moaaznoaman/argocd.git
+      revision: HEAD
+      directories:
+        - path: environments/*/*
     # - list:
     #     elements:
     #       - chartName: "podschart"
