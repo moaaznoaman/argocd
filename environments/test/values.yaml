@@ -1,0 +1,6 @@
+pods:
+  - test
+
+environment: "dev" 
+
+additionalNamespaces: []
