@@ -2,7 +2,7 @@ apiVersion: v2
 name: pods
 version: 1.0.0
 
-dependencies:
-  - name: trivy-operator
-    version: 0.24.1
-    repository: https://aquasecurity.github.io/helm-charts
+# dependencies:
+#   - name: trivy-operator
+#     version: 0.24.1
+#     repository: https://aquasecurity.github.io/helm-charts
