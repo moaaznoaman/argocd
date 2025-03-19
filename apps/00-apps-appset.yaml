@@ -14,21 +14,21 @@ spec:
         revision: HEAD
         directories:
           - path: environments/*
-    # - clusters:
-    #     selector:
-    #       matchExpressions:
-    #         - {
-    #             key: "name",
-    #             operator: In,
-    #             values: ["in-cluster"],
-    #           }
+    - clusters:
+        selector:
+          matchExpressions:
+            - {
+                key: "name",
+                operator: In,
+                values: ["in-cluster"],
+              }
     # - list:
     #     elements:
     #       - chartName: "podschart"
 
   template:
     metadata:
-      name: "{{.nameNormalized}}-{{.path.basename}}"
+      name: "{{.name}}-{{.path.basename}}"
       namespace: argocd
       labels:
         env: "{{.path.basename}}"
