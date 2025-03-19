@@ -28,7 +28,7 @@ spec:
 
   template:
     metadata:
-      name: "pods-{{path.basename}}-{{.name}}"
+      name: "{{.name}}-pods-{{path.basename}}"
       namespace: argocd
       labels:
         env: "{{path.basename}}"
