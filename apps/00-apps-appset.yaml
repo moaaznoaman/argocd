@@ -28,7 +28,7 @@ spec:
 
   template:
     metadata:
-      name: "{{.nameNormalized}}{{path.basename}}"
+      name: "{{.name}}-{{path.basename}}"
       namespace: argocd
       labels:
         env: "{{path.basename}}"
