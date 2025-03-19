@@ -6,8 +6,8 @@ metadata:
   # annotations:
   #   argocd.argoproj.io/sync-wave: "-1"
 spec:
-  # goTemplate: true
-  # goTemplateOptions: ["missingkey=error"]
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
     - git:
         repoURL: git@github.com:moaaznoaman/argocd-variables.git
