@@ -64,8 +64,8 @@ spec:
           helm:
             valueFiles:
               - "values.yaml"
-              - "$values/environments/prod/values.yaml"
-              - "$valuesnew/environments/prod/values.yaml"
+              - "$values/environments/{{ .metadata.labels.env }}/values.yaml"
+              - "$valuesnew/environments/{{ .metadata.labels.env }}/values.yaml"
       destination:
         name: "{{.name}}" # "{{ .metadata.labels.name }}" # https://kubernetes.default.svc
         namespace: "{{ .metadata.labels.env }}"
