@@ -13,20 +13,20 @@ spec:
         selector:
           matchLabels:
             env: "dev"
-    - git:
-        repoURL: https://github.com/moaaznoaman/argocd-variables.git
-        revision: HEAD
-        directories:
-          - path: environments/*
+#    - git:
+#        repoURL: https://github.com/moaaznoaman/argocd-variables.git
+#        revision: HEAD
+#        directories:
+#          - path: environments/*
 #          matchExpressions:
 #            - {
 #              key: "name",
 #              operator: In,
 #              values: ["vcluster2"],
 #            }
-    # - list:
-    #     elements:
-    #       - chartName: "podschart"
+#     - list:
+#         elements:
+#           - chartName: "podschart"
 
   template:
     metadata:
@@ -52,8 +52,8 @@ spec:
           helm:
             valueFiles:
               - "values.yaml"
-#              - "$values/environments/{{.path.basename}}/values.yaml"
-#              - "$valuesnew/environments/{{.path.basename}}/values.yaml"
+              - "$values/environments/dev/values.yaml"
+              - "$valuesnew/environments/dev/values.yaml"
       destination:
         name: "{{ .metadata.labels.name }}" # https://kubernetes.default.svc
         namespace: "pods" #TODO: check this
