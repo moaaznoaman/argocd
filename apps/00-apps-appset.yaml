@@ -13,6 +13,11 @@ spec:
         selector:
           matchLabels:
             env: "dev"
+    - git:
+        repoURL: git@github.com:moaaznoaman/argocd-variables.git
+        revision: HEAD
+        directories:
+          - path: environments/*
 #          matchExpressions:
 #            - {
 #              key: "name",
@@ -47,8 +52,8 @@ spec:
           helm:
             valueFiles:
               - "values.yaml"
-              - "$values/environments/{{.path.basename}}/values.yaml"
-              - "$valuesnew/environments/{{.path.basename}}/values.yaml"
+              - "$values/environments/{{ .path.basename }}/values.yaml"
+              - "$valuesnew/environments/{{ .path.basename }}/values.yaml"
       destination:
         name: "{{ .name }}" # "{{ .metadata.labels.name }}" # https://kubernetes.default.svc
         namespace: "pods" #TODO: check this
