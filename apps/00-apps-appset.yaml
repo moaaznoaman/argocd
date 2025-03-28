@@ -18,7 +18,7 @@ spec:
         selector:
           matchExpressions:
             - {
-                key: "cluster",
+                key: "name",
                 operator: In,
                 values: ["vcluster_vcluster-2_vcluster-2_minikube-vcluster"],
               }
@@ -54,7 +54,7 @@ spec:
             - "$values/environments/{{.path.basename}}/values.yaml"
             - "$valuesnew/environments/{{.path.basename}}/values.yaml"
       destination:
-        name: "vcluster_vcluster-2_vcluster-2_minikube-vcluster" # https://kubernetes.default.svc
+        name: "{{.name}}" # https://kubernetes.default.svc
         namespace: "{{.path.basename}}" #TODO: check this
       syncPolicy:
         automated:
