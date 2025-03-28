@@ -56,7 +56,7 @@ spec:
               - "$valuesnew/environments/dev/values.yaml"
       destination:
         name: "{{.name}}" # "{{ .metadata.labels.name }}" # https://kubernetes.default.svc
-        namespace: "pods" #TODO: check this
+        namespace: "dev" #TODO: check this
       syncPolicy:
         automated:
           prune: true
