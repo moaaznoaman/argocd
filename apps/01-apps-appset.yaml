@@ -45,7 +45,7 @@ spec:
       name: "pods-prod-{{.name}}"
       namespace: argocd
       labels:
-        env: "{{ .metadata.label.env }}"
+        env: "{{ .metadata.labels.env }}"
         app: "infra"
         # prod: "true"
         # envType: "{{ .metadata.labels.env_type }}"
