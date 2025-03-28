@@ -16,10 +16,8 @@ spec:
           - path: environments/*
     - clusters:
         selector:
-          - clusters:
-              selector:
-                matchLabels:
-                  env: "dev"
+          matchLabels:
+            env: "dev"
 #          matchExpressions:
 #            - {
 #              key: "name",
