@@ -45,7 +45,7 @@ spec:
       name: "pods-prod-{{.name}}"
       namespace: argocd
       labels:
-        env: "{{.path.basename}}"
+        env: "{{ .metadata.label.env }}"
         app: "infra"
         # prod: "true"
         # envType: "{{ .metadata.labels.env_type }}"
@@ -68,7 +68,7 @@ spec:
               - "$valuesnew/environments/prod/values.yaml"
       destination:
         name: "{{.name}}" # "{{ .metadata.labels.name }}" # https://kubernetes.default.svc
-        namespace: "{{.path.basename}}" #TODO: check this
+        namespace: "{{.path.basename}}"
       syncPolicy:
         automated:
           prune: true
