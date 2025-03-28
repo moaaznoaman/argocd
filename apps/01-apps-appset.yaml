@@ -1,0 +1,79 @@
+#apiVersion: argoproj.io/v1alpha1
+#kind: ApplicationSet
+#metadata:
+#  name: pods-appset
+#  namespace: argocd
+#  # annotations:
+#  #   argocd.argoproj.io/sync-wave: "-1"
+#spec:
+#  goTemplate: true
+#  goTemplateOptions: ["missingkey=error"]
+#  generators:
+#    - matrix:
+#        generators:
+#          - git:
+#              repoURL: https://github.com/moaaznoaman/argocd-variables.git
+#              revision: HEAD
+#              directories:
+#                - path: environments/*
+#          - clusters:
+#              selector:
+#                matchLabels:
+#                  env: "dev"
+##                  kubernetes.io/environment: '{{.path.basename}}'
+##    - clusters:
+##        selector:
+##          matchLabels:
+##            env: "dev"
+##    - git:
+##        repoURL: https://github.com/moaaznoaman/argocd-variables.git
+##        revision: HEAD
+##        directories:
+##          - path: environments/*
+##          matchExpressions:
+##            - {
+##              key: "name",
+##              operator: In,
+##              values: ["vcluster2"],
+##            }
+##     - list:
+##         elements:
+##           - chartName: "podschart"
+#
+#  template:
+#    metadata:
+#      name: "pods-{{.path.basename}}"
+#      namespace: argocd
+#      labels:
+#        env: "{{.path.basename}}"
+#        app: "infra"
+#        # prod: "true"
+#        # envType: "{{ .metadata.labels.env_type }}"
+#    spec:
+#      project: infra
+#      sources:
+#        - repoURL: git@github.com:moaaznoaman/argocd-variables.git
+#          targetRevision: HEAD
+#          ref: values
+#        - repoURL: git@github.com:moaaznoaman/argocd-variables-new.git
+#          targetRevision: HEAD
+#          ref: valuesnew
+#        - repoURL: git@github.com:moaaznoaman/argocd.git
+#          path: charts/pods
+#          targetRevision: HEAD
+#          helm:
+#            valueFiles:
+#              - "values.yaml"
+#              - "$values/environments/{{.path.basename}}/values.yaml"
+#              - "$valuesnew/environments/{{.path.basename}}/values.yaml"
+#      destination:
+#        name: "{{.name}}" # "{{ .metadata.labels.name }}" # https://kubernetes.default.svc
+#        namespace: "{{.path.basename}}" #TODO: check this
+#      syncPolicy:
+#        automated:
+#          prune: true
+#          selfHeal: true
+#        # syncOptions:
+#        #   - ServerSideApply=true # Big CRDs.
+#        #   - ApplyOutOfSyncOnly=true
+#        #   - preserveResourcesOnDeletion=true
