@@ -42,13 +42,11 @@ spec:
 
   template:
     metadata:
-      name: "pods-{{ .metadata.labels.env }}-{{.name}}"
+      name: "pods-{{ .metadata.labels.env }}"
       namespace: argocd
       labels:
         env: "{{ .metadata.labels.env }}"
         app: "infra"
-        # prod: "true"
-        # envType: "{{ .metadata.labels.env_type }}"
     spec:
       project: infra
       sources:
