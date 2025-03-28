@@ -14,8 +14,12 @@ spec:
         revision: HEAD
         directories:
           - path: environments/*
-#    - clusters:
-#        selector:
+    - clusters:
+        selector:
+          - clusters:
+              selector:
+                matchLabels:
+                  env: "dev"
 #          matchExpressions:
 #            - {
 #              key: "name",
