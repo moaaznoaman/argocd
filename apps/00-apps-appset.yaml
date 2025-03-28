@@ -14,14 +14,14 @@ spec:
         revision: HEAD
         directories:
           - path: environments/*
-    - clusters:
-        selector:
-          matchExpressions:
-            - {
-              key: "env",
-              operator: In,
-              values: ["dev"],
-            }
+#    - clusters:
+#        selector:
+#          matchExpressions:
+#            - {
+#              key: "env",
+#              operator: In,
+#              values: ["dev"],
+#            }
     # - list:
     #     elements:
     #       - chartName: "podschart"
