@@ -9,19 +9,24 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-    - git:
-        repoURL: git@github.com:moaaznoaman/argocd-variables.git
-        revision: HEAD
-        directories:
-          - path: environments/*
-    - clusters:
-        selector:
-          matchExpressions:
-            - {
-                key: "env",
-                operator: In,
-                values: ["dev"],
-              }
+    - matrix:
+        generators:
+          - matrix:
+              generators:
+                - clusters:
+                    selector:
+                      matchExpressions:
+                        - {
+                            key: "env",
+                            operator: In,
+                            values: ["dev"],
+                          }
+                - git:
+                    repoURL: git@github.com:moaaznoaman/argocd-variables.git
+                    revision: HEAD
+                    directories:
+                      - path: environments/*
+
 
     # - list:
     #     elements:
