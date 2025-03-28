@@ -14,7 +14,7 @@ spec:
           matchLabels:
             env: "dev"
     - git:
-        repoURL: https://github.com:moaaznoaman/argocd-variables.git
+        repoURL: https://github.com/moaaznoaman/argocd-variables.git
         revision: HEAD
         directories:
           - path: environments/*
