@@ -22,7 +22,6 @@ spec:
               operator: In,
               values: ["dev"],
             }
-
     # - list:
     #     elements:
     #       - chartName: "podschart"
