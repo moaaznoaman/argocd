@@ -9,10 +9,22 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-    - clusters:
-        selector:
-          matchLabels:
-            env: "dev"
+    - matrix:
+        generators:
+          - git:
+              repoURL: https://github.com/moaaznoaman/argocd-variables.git
+              revision: HEAD
+              directories:
+                - path: environments/*
+          - clusters:
+              selector:
+                matchLabels:
+                  env: "dev"
+#                  kubernetes.io/environment: '{{.path.basename}}'
+#    - clusters:
+#        selector:
+#          matchLabels:
+#            env: "dev"
 #    - git:
 #        repoURL: https://github.com/moaaznoaman/argocd-variables.git
 #        revision: HEAD
@@ -30,10 +42,10 @@ spec:
 
   template:
     metadata:
-      name: "pods-{{.name}}"
+      name: "pods-{{.path.basename}}"
       namespace: argocd
       labels:
-        env: "pods"
+        env: "{{.path.basename}}"
         app: "infra"
         # prod: "true"
         # envType: "{{ .metadata.labels.env_type }}"
@@ -52,11 +64,11 @@ spec:
           helm:
             valueFiles:
               - "values.yaml"
-              - "$values/environments/dev/values.yaml"
-              - "$valuesnew/environments/dev/values.yaml"
+              - "$values/environments/{{.path.basename}}/values.yaml"
+              - "$valuesnew/environments/{{.path.basename}}/values.yaml"
       destination:
         name: "{{.name}}" # "{{ .metadata.labels.name }}" # https://kubernetes.default.svc
-        namespace: "dev" #TODO: check this
+        namespace: "{{.path.basename}}" #TODO: check this
       syncPolicy:
         automated:
           prune: true
