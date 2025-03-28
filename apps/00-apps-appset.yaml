@@ -18,9 +18,9 @@ spec:
         selector:
           matchExpressions:
             - {
-                key: "name",
+                key: "dev",
                 operator: In,
-                values: ["in-cluster"],
+                values: ["dev"],
               }
     # - list:
     #     elements:
