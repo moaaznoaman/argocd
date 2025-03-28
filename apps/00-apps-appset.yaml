@@ -18,7 +18,7 @@ spec:
         selector:
           matchExpressions:
             - {
-                key: "name",
+                key: "env",
                 operator: In,
                 values: ["vcluster_vcluster-2_vcluster-2_minikube-vcluster"],
               }
