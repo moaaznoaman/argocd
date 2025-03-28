@@ -20,7 +20,7 @@ spec:
             - {
                 key: "name",
                 operator: In,
-                values: ["vcluster-2"],
+                values: ["in-cluster"],
               }
     # - list:
     #     elements:
