@@ -9,17 +9,10 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-    - matrix:
-        generators:
-          - git:
-              repoURL: git@github.com:moaaznoaman/argocd-variables.git
-              revision: HEAD
-              directories:
-                - path: environments/*
-          - clusters:
-              selector:
-                matchLabels:
-                  env: "dev"
+    - clusters:
+        selector:
+          matchLabels:
+            env: "dev"
 #          matchExpressions:
 #            - {
 #              key: "name",
@@ -32,10 +25,10 @@ spec:
 
   template:
     metadata:
-      name: "pods-{{.path.basename}}"
+      name: "pods"
       namespace: argocd
       labels:
-        env: "{{.path.basename}}"
+        env: "pods"
         app: "infra"
         # prod: "true"
         # envType: "{{ .metadata.labels.env_type }}"
@@ -57,8 +50,8 @@ spec:
               - "$values/environments/{{.path.basename}}/values.yaml"
               - "$valuesnew/environments/{{.path.basename}}/values.yaml"
       destination:
-        name: "vcluster2" # "{{ .metadata.labels.name }}" # https://kubernetes.default.svc
-        namespace: "{{.path.basename}}" #TODO: check this
+        name: "{{.name}" # "{{ .metadata.labels.name }}" # https://kubernetes.default.svc
+        namespace: "pods" #TODO: check this
       syncPolicy:
         automated:
           prune: true
