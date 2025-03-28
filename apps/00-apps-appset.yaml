@@ -9,6 +9,11 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
+    - git:
+        repoURL: git@github.com:moaaznoaman/argocd-variables.git
+        revision: HEAD
+        directories:
+          - path: environments/*
     - clusters:
         selector:
           matchExpressions:
@@ -17,11 +22,7 @@ spec:
                 operator: In,
                 values: ["dev"],
               }
-    - git:
-        repoURL: git@github.com:moaaznoaman/argocd-variables.git
-        revision: HEAD
-        directories:
-          - path: environments/*
+
     # - list:
     #     elements:
     #       - chartName: "podschart"
