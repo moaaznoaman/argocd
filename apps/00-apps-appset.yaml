@@ -53,10 +53,6 @@ spec:
       project: infra
       sources:
         - repoURL: git@github.com:moaaznoaman/argocd-variables.git
-          directories:
-            - path: environments/*
-            - path: environments/prod
-              exclude: true
           targetRevision: HEAD
           ref: values
         - repoURL: git@github.com:moaaznoaman/argocd-variables-new.git
