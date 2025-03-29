@@ -16,6 +16,8 @@ spec:
               revision: HEAD
               directories:
                 - path: environments/*
+                - path: environments/prod
+                  exclude: true
           - clusters:
               selector:
                 matchLabels:
