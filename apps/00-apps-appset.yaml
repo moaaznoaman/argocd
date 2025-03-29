@@ -45,7 +45,7 @@ spec:
       name: "pods-{{.path.basename}}-{{.name}}"
       namespace: argocd
       labels:
-        env: "{{.path.basename}}"
+        env: "{{ .metadata.labels.env }}"
         app: "infra"
         # prod: "true"
         # envType: "{{ .metadata.labels.env_type }}"
@@ -53,6 +53,10 @@ spec:
       project: infra
       sources:
         - repoURL: git@github.com:moaaznoaman/argocd-variables.git
+          directories:
+            - path: environments
+            - path: environments/prod
+              exclude: true
           targetRevision: HEAD
           ref: values
         - repoURL: git@github.com:moaaznoaman/argocd-variables-new.git
@@ -68,7 +72,7 @@ spec:
               - "$valuesnew/environments/{{.path.basename}}/values.yaml"
       destination:
         name: "{{.name}}"# "{{ .metadata.labels.name }}" # https://kubernetes.default.svc
-        namespace: "{{.path.basename}}" #TODO: check this
+        namespace: "{{ .metadata.labels.env }}" #TODO: check this
       syncPolicy:
         automated:
           prune: true
