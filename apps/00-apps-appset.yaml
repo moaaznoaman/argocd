@@ -54,7 +54,7 @@ spec:
       sources:
         - repoURL: git@github.com:moaaznoaman/argocd-variables.git
           directories:
-            - path: environments
+            - path: environments/*
             - path: environments/prod
               exclude: true
           targetRevision: HEAD
