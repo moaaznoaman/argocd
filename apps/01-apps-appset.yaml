@@ -55,7 +55,7 @@ spec:
       project: infra
       sources:
         - repoURL: git@github.com:moaaznoaman/argocd-variables.git
-          targetRevision: HEAD
+          targetRevision: "{{ .metadata.labels.envBranch }}"
           ref: values
         - repoURL: git@github.com:moaaznoaman/argocd-variables-new.git
           targetRevision: HEAD
