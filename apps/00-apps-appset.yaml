@@ -25,6 +25,13 @@ spec:
                       - path: environments/prod
                         exclude: true
 
+          - git:
+              repoURL: https://github.com/moaaznoaman/argocd-variables.git
+              revision: "{{ .metadata.labels.branchName }}" # HEAD
+              directories:
+                - path: environments/*
+                - path: environments/prod
+                  exclude: true
 #                  kubernetes.io/environment: '{{.path.basename}}'
 #    - clusters:
 #        selector:
