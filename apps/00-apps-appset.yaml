@@ -69,7 +69,7 @@ spec:
               - "$values/environments/{{.path.basename}}/values.yaml"
               - "$valuesnew/environments/{{.path.basename}}/values.yaml"
       destination:
-        name: "{{.name}}"# "{{ .metadata.labels.name }}" # https://kubernetes.default.svc
+        name: "{{.name}}" # "{{ .metadata.labels.name }}" # https://kubernetes.default.svc
         namespace: "{{ .metadata.labels.env }}" #TODO: check this
       syncPolicy:
         automated:
