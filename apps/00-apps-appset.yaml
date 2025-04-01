@@ -13,7 +13,7 @@ spec:
         generators:
           - git:
               repoURL: https://github.com/moaaznoaman/argocd-variables.git
-              revision: HEAD
+              revision: "{{ .metadata.labels.branchName}}" # HEAD
               directories:
                 - path: environments/*
                 - path: environments/prod
