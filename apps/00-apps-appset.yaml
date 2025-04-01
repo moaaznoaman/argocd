@@ -11,20 +11,10 @@ spec:
   generators:
     - matrix:
         generators:
-          - matrix:
-              generators:
-                - clusters:
-                    selector:
-                      matchLabels:
-                        env: "dev"
-                - git:
-                    repoURL: https://github.com/moaaznoaman/argocd-variables.git
-                    revision: "{{ .metadata.labels.envBranch }}" # HEAD
-                    directories:
-                      - path: environments/*
-                      - path: environments/prod
-                        exclude: true
-
+          - clusters:
+              selector:
+                matchLabels:
+                  env: "dev"
           - git:
               repoURL: https://github.com/moaaznoaman/argocd-variables.git
               revision: "{{ .metadata.labels.envBranch }}" # HEAD
@@ -32,11 +22,7 @@ spec:
                 - path: environments/*
                 - path: environments/prod
                   exclude: true
-#                  kubernetes.io/environment: '{{.path.basename}}'
-#    - clusters:
-#        selector:
-#          matchLabels:
-#            env: "dev"
+
 #    - git:
 #        repoURL: https://github.com/moaaznoaman/argocd-variables.git
 #        revision: HEAD
