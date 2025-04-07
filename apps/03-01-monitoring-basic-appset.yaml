@@ -34,7 +34,7 @@ spec:
             releaseName: "prometheus"
             valueFiles:
               - "values.yaml"
-              - "$values/environments/{{ .metadata.labels.env }}/{{ snakecase .metadata.labels.suite }}/gitops/monitoring-basic-values.yaml"
+              - "$values/environments/{{ .metadata.labels.env }}/monitoring-basic-values.yaml"
 #              - "$valuesnew/environments/{{ .metadata.labels.env }}/values.yaml"
             values: |
                 prometheusSpec:
