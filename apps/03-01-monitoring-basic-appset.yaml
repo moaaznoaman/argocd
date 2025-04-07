@@ -72,7 +72,7 @@ spec:
           kind: ServiceMonitor
           name: apps-all-namespaces
           jqPathExpressions:
-          - .spec.endpoints[].relabelings[]
+          - .spec.remoteWrite[]?.writeRelabelConfigs[]?.action # .spec.endpoints[].relabelings[]
       syncPolicy:
         automated:
           selfHeal: true
