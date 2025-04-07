@@ -11,8 +11,8 @@ spec:
   generators:
     - clusters:
         selector:
-          matchLabels:
-            env: "prod"
+          matchExpressions:
+            - { key: "env", operator: In, values: [ "prod" ] }
 #    - matrix:
 #        generators:
 #          - git:
