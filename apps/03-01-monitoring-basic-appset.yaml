@@ -56,6 +56,9 @@ spec:
                     static_configs:
                     - targets:
                       - prometheus-kube-prometheus-prometheus.monitoring.svc:9090
+                prometheus:
+                  annotations:
+                    argocd.argoproj.io/skip-health-check: 'true'
             parameters:
 
               - name: kube-prometheus-stack.enabled
