@@ -1,0 +1,1078 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 30,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "rgb(150, 150, 150)",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 39,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "name"
+      },
+      "pluginVersion": "9.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "env_info",
+          "interval": "",
+          "legendFormat": "{{ title }}",
+          "refId": "A"
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 2
+      },
+      "id": 17,
+      "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Verifier Commands",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Shows the total number of verifier commands (create, destroy, split, merge, switch) since the last restart. After a restart the number is reset to 0 as it is only stored in memory.\nTotal Value",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 10,
+        "x": 0,
+        "y": 3
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum by(command) (verifier_commands_count{command=~\".*v2\", instance=~\".*\"})",
+          "interval": "",
+          "legendFormat": "{{command}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Number (since last reset)",
+      "type": "stat"
+    },
+    {
+      "aliasColors": {
+        "create_v2": "#7eb26d",
+        "destroy_v2": "semi-dark-red",
+        "merge_v2": "#eab839",
+        "split_v2": "#6ed0e0",
+        "switch_v2": "semi-dark-purple"
+      },
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "This panel shows how many commands are executed each minute.\nThe bars for the different commands are stacked.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "fill": 10,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 12,
+        "w": 14,
+        "x": 10,
+        "y": 3
+      },
+      "hiddenSeries": false,
+      "id": 18,
+      "interval": "2m",
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.3.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum by (command) (rate(verifier_commands_count[$__rate_interval])) * 120",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{command}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Verifier Commands",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:476",
+          "format": "none",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:477",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Similar to \"Total Number\" this only shows values since the last restart. The value is calculated as follows:\n\n- Create: Value of created note\n- Destroy: Value of destroyed note\n- Merge: Value of target note\n- Split: Value of source note\n- Switch: Value of switched note\n\nThe value is divided by the currency factor to show the amount in the main (bigger) currency unit.",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "light-green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 10,
+        "x": 0,
+        "y": 7
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum by (command) (verifier_commands_value{command!=\"xxcreate_v2\"}) / $env_currency_factor",
+          "interval": "",
+          "legendFormat": "{{command}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Value, $env_currency_iso (since last reset)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Shows which percentage of response times were below certain threshold values.",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [],
+          "max": 1,
+          "min": 0,
+          "noValue": "no data in time range",
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "rgb(228, 138, 45)",
+                "value": 40
+              },
+              {
+                "color": "rgb(244, 210, 113)",
+                "value": 50
+              },
+              {
+                "color": "rgb(208, 207, 78)",
+                "value": 60
+              },
+              {
+                "color": "light-green",
+                "value": 70
+              },
+              {
+                "color": "semi-dark-green",
+                "value": 80
+              },
+              {
+                "color": "dark-green",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 10,
+        "x": 0,
+        "y": 11
+      },
+      "id": 22,
+      "interval": "",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "9.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(rate(verifier_request_duration_bucket{le=\"0.2\", route=~\".*api.*\"}[$__range])) / sum(rate(verifier_request_duration_bucket{le=\"+Inf\", route=~\".*api.*\"}[$__range]))",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "< 200ms",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(rate(verifier_request_duration_bucket{le=\"0.5\", route=~\".*api.*\"}[$__range])) / sum(rate(verifier_request_duration_bucket{le=\"+Inf\", route=~\".*api.*\"}[$__range]))",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "< 500ms",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(rate(verifier_request_duration_bucket{le=\"1\", route=~\".*api.*\"}[$__range])) / sum(rate(verifier_request_duration_bucket{le=\"+Inf\", route=~\".*api.*\"}[$__range]))",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "< 1 sec.",
+          "refId": "C"
+        }
+      ],
+      "title": "Response time",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "id": 24,
+      "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Performance",
+      "type": "row"
+    },
+    {
+      "aliasColors": {
+        "CPU percentage": "light-blue",
+        "memory usage": "dark-purple",
+        "verifier": "light-blue"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "The graph shows the CPU usage and memory usage of the verifier. When CPU usage is close to 100%, the verifiers compute ressources are fully used. Memory usage should typically be below 100MiB, the limit is at around 8GiB.\n",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "memory usage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              }
+            ]
+          }
+        ]
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 5,
+        "x": 0,
+        "y": 16
+      },
+      "hiddenSeries": false,
+      "id": 30,
+      "interval": "2m",
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.3.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:818",
+          "alias": "memory usage",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "max(rate(container_cpu_usage_seconds_total{container=\"verifier\"}[$__rate_interval]))  / max(machine_cpu_cores)  ",
+          "interval": "",
+          "legendFormat": "CPU percentage",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(container_memory_working_set_bytes{namespace=\"core\", container=\"verifier\"}) by (container)",
+          "interval": "",
+          "legendFormat": "memory usage",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Verifier Ressource Usage",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:94",
+          "format": "percentunit",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:95",
+          "format": "bytes",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {
+        "Received": "semi-dark-green",
+        "Sent": "semi-dark-blue"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "This graph shows how much data was received and sent by the verifier. This includes traffic from and to verifier clients and traffic between the verifier and the database. The limit on Azure should be around 125MB/s.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
+      "fill": 10,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 5,
+        "x": 5,
+        "y": 16
+      },
+      "hiddenSeries": false,
+      "id": 32,
+      "interval": "2m",
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.3.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(irate(container_network_receive_bytes_total{pod=~\"verifier-[^t].*\"}[$__rate_interval])) by (pod)",
+          "interval": "",
+          "legendFormat": "Received",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(irate(container_network_transmit_bytes_total{pod=~\"verifier-[^t].*\"}[$__rate_interval])) by (pod)",
+          "interval": "",
+          "legendFormat": "Sent",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Verifier Network Traffic",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:424",
+          "format": "Bps",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:425",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {
+        "create_v2": "#7eb26d",
+        "destroy_v2": "semi-dark-red",
+        "merge_v2": "#eab839",
+        "split_v2": "#6ed0e0",
+        "switch_v2": "semi-dark-purple"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "This panel shows how many commands are executed per second.\nThe areas for the different commands are stacked.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "si:op/s"
+        },
+        "overrides": []
+      },
+      "fill": 10,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 7,
+        "x": 10,
+        "y": 16
+      },
+      "hiddenSeries": false,
+      "id": 33,
+      "interval": "2m",
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 0,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.3.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum by (command) (rate(verifier_commands_count[$__rate_interval]))",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{command}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Verifier Throughput",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:476",
+          "format": "si:op/s",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:477",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {
+        "50%": "dark-green",
+        "90%": "dark-yellow",
+        "95%": "dark-orange",
+        "99%": "dark-red",
+        "ops": "dark-purple"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Shows response time percentiles over time. For example, a 90% line at 500ms indicates that 90% of requests took less than 500ms.\n\nThe percentile numbers are only an estimate. Since we cannot store the response time of each request, we only count the response time in different buckets (e.g. count number of requests with less than 100ms and number with less than 200ms). From this, the percentiles are estimated.\n",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ops"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "si:ops/s"
+              }
+            ]
+          }
+        ]
+      },
+      "fill": 10,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 7,
+        "x": 17,
+        "y": 16
+      },
+      "hiddenSeries": false,
+      "id": 26,
+      "interval": "2m",
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.3.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:179",
+          "alias": "ops",
+          "fill": 0,
+          "linewidth": 2,
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "histogram_quantile(\n    0.99, \n    sum without (instance,route)(irate(verifier_request_duration_bucket[$__rate_interval])))",
+          "interval": "",
+          "legendFormat": "99%",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "histogram_quantile(\n    0.95, \n    sum without (instance,route)(irate(verifier_request_duration_bucket[$__rate_interval])))",
+          "interval": "",
+          "legendFormat": "95%",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "histogram_quantile(\n    0.90, \n    sum without (instance,route)(irate(verifier_request_duration_bucket[$__rate_interval])))",
+          "interval": "",
+          "legendFormat": "90%",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "histogram_quantile(\n    0.50, \n    sum without (instance,route)(irate(verifier_request_duration_bucket[$__rate_interval])))",
+          "interval": "",
+          "legendFormat": "50%",
+          "refId": "D"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Verifier Response Times",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:362",
+          "format": "s",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:363",
+          "format": "si:ops/s",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "isNone": true,
+          "selected": false,
+          "text": "None",
+          "value": ""
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "definition": "label_values(kube_namespace_labels{namespace=~'payment-processor.*'}, namespace)",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "payment_processor",
+        "options": [],
+        "query": {
+          "query": "label_values(kube_namespace_labels{namespace=~'payment-processor.*'}, namespace)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "payment-processor(.*)",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "100",
+          "value": "100"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "definition": "label_values(env_info, currency_factor)",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "env_currency_factor",
+        "options": [],
+        "query": {
+          "query": "label_values(env_info, currency_factor)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "EUR",
+          "value": "EUR"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "definition": "label_values(env_info, currency_iso)",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "env_currency_iso",
+        "options": [],
+        "query": {
+          "query": "label_values(env_info, currency_iso)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Filia Core System",
+  "uid": "lnatrefAz",
+  "version": 1,
+  "weekStart": ""
+}

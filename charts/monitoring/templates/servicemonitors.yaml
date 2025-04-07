@@ -1,0 +1,66 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: apps-all-namespaces
+  namespace: monitoring
+  labels:
+    release: prometheus
+spec:
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      filia/metrics: prometheus
+  endpoints:
+  # START Legacy Block for Verifier (until it features an 'opsport')
+  # consider using a separate port for prometheus metrics
+  - port: http
+    interval: 60s
+    scheme: http
+    path: /.metrics
+    # Remove too many labels noise.
+    # Too many labels produce more effort when aggregating and need to
+    # list labels to drop in every query.
+    # So we normally would desire only following labels:
+    # * endpoint (always http)
+    # * instance (pod is enough)
+    # * namespace (duplicate of env)
+    # * service (duplicate of job)
+    # * cluster (to differentiate between clusters)
+    # Since job and instance are obligatory prometheus labels and can not be dropped,
+    # use job for service name and instance for pod name.
+    relabelings:
+    - regex: endpoint
+      action: labeldrop
+    - sourceLabels: [__meta_kubernetes_pod_name]
+      targetLabel: instance
+    - regex: pod
+      action: labeldrop
+    - regex: service
+      action: labeldrop
+  # END Legacy Block for Verifier (until it features an 'opsport')
+  - port: opsport
+    interval: 60s
+    scheme: http
+    path: /.metrics
+    # Remove too many labels noise.
+    # Too many labels produce more effort when aggregating and need to
+    # list labels to drop in every query.
+    # So we normally would desire only following labels:
+    # * endpoint (always http)
+    # * instance (pod is enough)
+    # * namespace (duplicate of env)
+    # * service (duplicate of job)
+    # * cluster (to differentiate between clusters)
+    # Since job and instance are obligatory prometheus labels and can not be dropped,
+    # use job for service name and instance for pod name.
+    relabelings:
+    - regex: endpoint
+      action: labeldrop
+    - sourceLabels: [__meta_kubernetes_pod_name]
+      targetLabel: instance
+    - regex: pod
+      action: labeldrop
+    - regex: service
+      action: labeldrop

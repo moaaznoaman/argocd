@@ -1,0 +1,206 @@
+---
+# prometheus: {}
+vaultUrl: "https://env-suite.vault.azure.net/"
+
+# For the external secrets operator to pull secrets
+suite: cbtest
+
+promtail:
+  enabled: false
+  config:
+    clients:
+      - url: http://default/loki/api/v1/push
+    extraVolumeMounts:
+      - mountPath: /var/log/journal
+        name: journal
+        readOnly: true
+    extraVolumes:
+      - hostPath:
+          path: /var/log/journal
+        name: journal
+    # server:
+    #   grpc_server_max_recv_msg_size: 8388608
+    #   grpc_server_max_send_msg_size: 8388608
+    snippets:
+      pipeline_stages:
+        - cri: {}
+        - json:
+            expressions:
+              level: level
+              request_id: request_id
+              time: time
+        - labels:
+            level:
+      extraRelabelConfigs:
+        - action: labeldrop
+          regex: "(app|container|instance|component|namespace)"
+        - action: replace
+          replacement: default
+          target_label: suite
+
+kube-prometheus-stack:
+  enabled: false
+  namespaceOverride: "monitoring"
+  # fullnameOverride: "demo-services"
+  alertmanager:
+    enabled: false
+    alertmanagerSpec:
+      logLevel: info
+      secrets:
+        - alertmanager-secrets
+    config:
+      global:
+        resolve_timeout: 5m
+      receivers:
+        - name: "null"
+        - name: filia_monitoring_slack
+          slack_configs:
+            - api_url_file: /etc/alertmanager/secrets/alertmanager-secrets/filia-monitoring-slack-url
+              channel: "#filia-monitoring"
+              send_resolved: true
+              text: |-
+                {{ range .Alerts }}
+                  *Alert:* {{ .Annotations.summary }} - `{{ .Labels.environment }}`
+                  *Description:* {{ .Annotations.description }} - `{{ .Labels.severity }}`
+                  *Details:*
+                  {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                  {{ end }}
+                {{ end }}
+              title:
+                '{{ if eq .Status "firing" }}:fire:{{ else }}:white_check_mark:{{ end
+                }}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}{{ .Alerts.Firing
+                | len }}{{ end }}] Monitoring Event'
+        - name: ops_monitoring_slack
+          slack_configs:
+            - api_url_file: /etc/alertmanager/secrets/alertmanager-secrets/ops-monitoring-slack-url
+              channel: "#ops-monitoring"
+              send_resolved: true
+              text: |-
+                {{ range .Alerts }}
+                  *Alert:* {{ .Annotations.summary }} - `{{ .Labels.environment }}`
+                  *Description:* {{ .Annotations.description }} - `{{ .Labels.severity }}`
+                  *Details:*
+                  {{ range .Labels.SortedPairs }}{{ if or (eq .Name "alertname") (eq .Name "cluster") (eq .Name "environment") (eq .Name "severity") (eq .Name "instance") (eq .Name "target") (eq .Name "team") (eq .Name "dashboard") }}*{{ .Name }}*: `{{ .Value }}`
+                  {{ end }}{{ end }}
+                {{ end }}
+              title:
+                '{{ if eq .Status "firing" }}:fire:{{ else }}:white_check_mark:{{ end
+                }}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}{{ .Alerts.Firing
+                | len }}{{ end }}] Monitoring Event'
+      route:
+        group_by:
+          - cluster
+          - alertname
+        group_interval: 30s
+        group_wait: 10s
+        receiver: "null"
+        repeat_interval: 24h
+        routes:
+          - match:
+              team: development
+            receiver: filia_monitoring_slack
+          - match:
+              team: ops
+            receiver: ops_monitoring_slack
+  grafana:
+    enabled: false
+    admin:
+      existingSecret: "monitoring-secrets"
+    # adminPassword: xxx # Passed from secrets
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+          - disableDeletion: false
+            editable: true
+            folder: ""
+            name: filia-dashboards
+            options:
+              path: /var/lib/grafana/dashboards/filia-dashboards
+            orgId: 1
+            type: file
+    dashboardsConfigMaps:
+      filia-dashboards: filia-dashboards-configmap
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - access: proxy
+            isDefault: true
+            name: prometheus
+            type: prometheus
+            url: http://prometheus-kube-prometheus-prometheus.monitoring.svc:9090
+    grafana.ini:
+      auth.anonymous:
+        enabled: false
+        org_name: Main Org.
+        org_role: Viewer
+      auth.basic:
+        enabled: true
+      dashboards:
+        default_home_dashboard_path: /var/lib/grafana/dashboards/filia-dashboards/core-system.json
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
+    sidecar:
+      dashboards:
+        multicluster:
+          global:
+            enabled: true
+      datasources:
+        defaultDatasourceEnabled: false
+    ingress:
+      enabled: true
+      ingressClassName: public
+      annotations: {}
+      hosts:
+        - xxx
+      tls:
+        - secretName: monitoring-tls-secret
+          hosts:
+            - xxx
+  kubeControllerManager:
+    enabled: false
+  kubeScheduler:
+    enabled: false
+  prometheus:
+    enabled: false
+    service:
+      type: LoadBalancer
+      port: 9090
+      targetPort: 9090
+      annotations:
+        service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+        service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "ingress-internal"
+    prometheusSpec:
+      portName: http
+      resources:
+        limits:
+          memory: "2500Mi"
+        requests:
+          memory: "400Mi"
+      externalLabels:
+        cluster: "default"
+      ruleSelector:
+        matchLabels: {}
+      serviceMonitorSelector: {}
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: "16Gi"
+  prometheus-node-exporter:
+    {}
+    # resources:
+    #   limits:
+    #     cpu: 200m
+    #     memory: 100Mi
+  prometheusOperator:
+    resources:
+      limits:
+        cpu: 200m
+        memory: 200Mi
+      requests:
+        cpu: 100m
+        memory: 100Mi
