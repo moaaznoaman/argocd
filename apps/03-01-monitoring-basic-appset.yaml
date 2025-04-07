@@ -1,92 +1,90 @@
-#apiVersion: argoproj.io/v1alpha1
-#kind: ApplicationSet
-#metadata:
-#  name: monitoring-basic
-#spec:
-#  goTemplate: true
-#  goTemplateOptions: ["missingkey=error"]
-#  generators:
-#    - clusters:
-#        selector:
-#          matchExpressions:
-#            - { key: "env", operator: In, values: ["prod"] }
-#  template:
-#    metadata:
-#      name: "{{ .name }}-basic-monitoring"
-#      labels:
-#        env: "{{ .metadata.labels.env }}"
-#        app: "infra"
-#        envType: "{{ .metadata.labels.env }}"
-#        appset: monitoring
-#      annotations:
-#        argocd.argoproj.io/sync-wave: "0"
-#    spec:
-#      project: infra
-#      sources:
-#        - repoURL: git@github.com:moaaznoaman/argocd-variables.git
-#          targetRevision: "{{ .metadata.labels.envBranch }}"
-#          ref: values
-#        - repoURL: "git@github.com:moaaznoaman/argocd.git"
-#          path: charts/monitoring
-#          targetRevision: HEAD # "{{ .metadata.labels.gitopsBranch }}"
-#          helm:
-#            ignoreMissingValueFiles: true
-#            releaseName: "prometheus"
-#            valueFiles:
-#              - "values.yaml"
-#              - "$values/environments/{{ .metadata.labels.env }}/monitoring-basic-values.yaml"
-##              - "$valuesnew/environments/{{ .metadata.labels.env }}/values.yaml"
-#            values: |
-#                prometheusSpec:
-#                  additionalScrapeConfigs:
-#                  - job_name: 'kube-prometheus'
-#                    kubernetes_sd_configs:
-#                      - role: endpoints
-#                    relabel_configs:
-#                      - source_labels: []
-#                        separator: ;
-#                        regex: .*
-#                        target_label: cluster
-#                        replacement: "demo-services"
-#                  - honor_labels: true
-#                    job_name: federate
-#                    metrics_path: /federate
-#                    params:
-#                      match[]:
-#                      - '{nonexistant=""}'
-#                    scrape_interval: 15s
-#                    static_configs:
-#                    - targets:
-#                      - prometheus-kube-prometheus-prometheus.monitoring.svc:9090
-#            parameters:
-#
-#              - name: kube-prometheus-stack.enabled
-#                value: "true"
-#              - name: kube-prometheus-stack.prometheus.enabled
-#                value: "true"
-#      destination:
-#        name: "{{ .name }}"
-#        namespace: "monitoring"
-#      ignoreDifferences:
-#        - group: "monitoring.coreos.com"
-#          kind: ServiceMonitor
-#          name: apps-all-namespaces
-#          jqPathExpressions:
-#          - .spec.remoteWrite[]?.writeRelabelConfigs[]?.action # .spec.endpoints[].relabelings[]
-#      syncPolicy:
-#        automated:
-#          selfHeal: true
-#        syncOptions:
-#          - CreateNamespace=true
-#          - ServerSideApply=true # Big CRDs
-#          - preserveResourcesOnDeletion=true
-#          - ApplyOutOfSyncOnly=true
-#          - Retry=true
-#          - Validate=false
-#          - PruneLast=true
-#        retry:
-#          limit: 5 # Maximum number of retries
-#          backoff:
-#            duration: 5s # Initial retry interval
-#            factor: 2 # Multiplication factor for the backoff
-#            maxDuration: 3m # Maximum retry interval
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: monitoring-basic
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - clusters:
+        selector:
+          matchExpressions:
+            - { key: "env", operator: In, values: ["prod"] }
+  template:
+    metadata:
+      name: "{{ .name }}-basic-monitoring"
+      labels:
+        env: "{{ .metadata.labels.env }}"
+        app: "infra"
+        envType: "{{ .metadata.labels.env }}"
+        appset: monitoring
+    spec:
+      project: infra
+      sources:
+        - repoURL: git@github.com:moaaznoaman/argocd-variables.git
+          targetRevision: "{{ .metadata.labels.envBranch }}"
+          ref: values
+        - repoURL: "git@github.com:moaaznoaman/argocd.git"
+          path: charts/monitoring
+          targetRevision: HEAD # "{{ .metadata.labels.gitopsBranch }}"
+          helm:
+            ignoreMissingValueFiles: true
+            releaseName: "prometheus"
+            valueFiles:
+              - "values.yaml"
+              - "$values/environments/{{ .metadata.labels.env }}/monitoring-basic-values.yaml"
+#              - "$valuesnew/environments/{{ .metadata.labels.env }}/values.yaml"
+            values: |
+                prometheusSpec:
+                  additionalScrapeConfigs:
+                  - job_name: 'kube-prometheus'
+                    kubernetes_sd_configs:
+                      - role: endpoints
+                    relabel_configs:
+                      - source_labels: []
+                        separator: ;
+                        regex: .*
+                        target_label: cluster
+                        replacement: "demo-services"
+                  - honor_labels: true
+                    job_name: federate
+                    metrics_path: /federate
+                    params:
+                      match[]:
+                      - '{nonexistant=""}'
+                    scrape_interval: 15s
+                    static_configs:
+                    - targets:
+                      - prometheus-kube-prometheus-prometheus.monitoring.svc:9090
+            parameters:
+
+              - name: kube-prometheus-stack.enabled
+                value: "true"
+              - name: kube-prometheus-stack.prometheus.enabled
+                value: "true"
+      destination:
+        name: "{{ .name }}"
+        namespace: "monitoring"
+      ignoreDifferences:
+        - group: "monitoring.coreos.com"
+          kind: ServiceMonitor
+          name: apps-all-namespaces
+          jqPathExpressions:
+          - .spec.remoteWrite[]?.writeRelabelConfigs[]?.action # .spec.endpoints[].relabelings[]
+      syncPolicy:
+        automated:
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true # Big CRDs
+          - preserveResourcesOnDeletion=true
+          - ApplyOutOfSyncOnly=true
+          - Retry=true
+          - Validate=false
+          - PruneLast=true
+        retry:
+          limit: 5 # Maximum number of retries
+          backoff:
+            duration: 5s # Initial retry interval
+            factor: 2 # Multiplication factor for the backoff
+            maxDuration: 3m # Maximum retry interval
