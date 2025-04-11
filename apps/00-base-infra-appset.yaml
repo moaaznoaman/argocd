@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: base-infra
+  name: external-secret-operator
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
@@ -16,7 +16,7 @@ spec:
               }
   template:
     metadata:
-      name: "{{ .name }}-basic-monitoring"
+      name: "{{ .name }}-external-secret-operator"
       labels:
         env: "{{ .metadata.labels.env }}"
         app: "infra"
@@ -39,8 +39,6 @@ spec:
               - "values.yaml"
               - "$values/environments/{{ .metadata.labels.env }}/external-secrets-values.yaml"
             parameters:
-              - name: "external-secrets.serviceAccount.annotations.azure\\.workload\\.identity/client-id"
-                value: "{{ .metadata.labels.externalSecretsClientId }}"
               - name: "envType"
                 value: "{{ .metadata.labels.env }}"
               - name: suiteVaultUrl
