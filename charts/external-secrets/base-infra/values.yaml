@@ -1,0 +1,36 @@
+---
+###### Namespaces #######
+namespaces:
+  - system
+  - ingress
+  - monitoring
+
+additionalNamespaces: []
+
+###### Reflector #######
+
+reflector: {}
+###### External Secrets #######
+
+suite: dummy
+# fspSuite: false #TODO: not idea but open for working
+suiteVaultUrl: "test.net"
+
+envType: "dev"
+# serviceAccount:
+#   name: "external-secrets"
+
+external-secrets:
+  installCRDs: true
+  podLabels:
+    azure.workload.identity/use: "true"
+  serviceAccount:
+    name: "external-secrets"
+    annotations:
+      azure.workload.identity/tenant-id: f9adec1d-13d3-4ce4-bbd5-10d747afb500
+    labels:
+      azure.workload.identity/use: "true"
+
+suiteExternalSecrets: {}
+
+###### Trivy Operator #######
