@@ -26,10 +26,10 @@ external-secrets:
     azure.workload.identity/use: "true"
   serviceAccount:
     name: "external-secrets"
-    annotations:
-      azure.workload.identity/tenant-id: f9adec1d-13d3-4ce4-bbd5-10d747afb500
-    labels:
-      azure.workload.identity/use: "true"
+    # annotations:
+    #   azure.workload.identity/tenant-id: f9adec1d-13d3-4ce4-bbd5-10d747afb500
+    # labels:
+    #   azure.workload.identity/use: "true"
 
 suiteExternalSecrets: {}
 
