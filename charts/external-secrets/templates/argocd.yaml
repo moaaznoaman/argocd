@@ -6,10 +6,8 @@ metadata:
 spec:
   dataFrom:
     - find:
-        conversionStrategy: Default
-        decodingStrategy: None
         name:
-          regexp: "{{ .Values.envType }}ArgoSsoClient.*"
+          regexp: "{{ .Values.envType }}ArgoClient.*"
   refreshInterval: "30s"
   secretStoreRef:
     name: argocd-backend
