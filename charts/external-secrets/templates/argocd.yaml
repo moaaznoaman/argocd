@@ -1,0 +1,26 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: argocd-secret-test
+  namespace: default
+spec:
+  dataFrom:
+    - find:
+        conversionStrategy: Default
+        decodingStrategy: None
+        name:
+          regexp: "{{ .Values.envType }}ArgoSsoClient.*"
+  refreshInterval: "30s"
+  secretStoreRef:
+    name: argocd-backend
+    kind: ClusterSecretStore
+  target:
+    creationPolicy: Owner
+    name: argocd-secret-test
+    template:
+      data:
+        oidc.azure.clientId: '{{ .DevArgoSsoClientId }}'
+        oidc.azure.clientSecret: '{{ .DevArgoSsoClientSecret }}'
+      engineVersion: v2
+      mergePolicy: Replace
+      type: Opaque
