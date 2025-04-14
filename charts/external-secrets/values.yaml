@@ -16,7 +16,7 @@ suite: dummy
 # fspSuite: false #TODO: not idea but open for working
 suiteVaultUrl: "test.net"
 
-envType: "dev"
+envType: "Dev"
 # serviceAccount:
 #   name: "external-secrets"
 
