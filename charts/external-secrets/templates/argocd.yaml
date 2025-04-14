@@ -7,7 +7,7 @@ spec:
   dataFrom:
     - find:
         name:
-          regexp: "{{ .Values.envType }}ArgoClient.*"
+          regexp: "{{ .Values.envType }}ArgocdClient.*"
   refreshInterval: "30s"
   secretStoreRef:
     name: argocd-backend
