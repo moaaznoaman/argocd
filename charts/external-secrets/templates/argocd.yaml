@@ -19,8 +19,8 @@ spec:
     name: argocd-secret-test
     template:
       data:
-        oidc.azure.clientId: '{{ .DevArgoSsoClientId }}'
-        oidc.azure.clientSecret: '{{ .DevArgoSsoClientSecret }}'
+        oidc.azure.clientId: '{{ index . (printf "%sArgoSsoClientId" .Values.envType) }}'
+        oidc.azure.clientSecret: '{{ index . (printf "%sArgoSsoClientSecret" .Values.envType) }}'
       engineVersion: v2
       mergePolicy: Replace
       type: Opaque
