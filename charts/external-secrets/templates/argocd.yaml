@@ -24,4 +24,3 @@ spec:
       engineVersion: v2
       mergePolicy: Replace
       type: Opaque
-c
