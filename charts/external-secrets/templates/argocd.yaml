@@ -6,6 +6,8 @@ metadata:
 spec:
   dataFrom:
     - find:
+        conversionStrategy: Default
+        decodingStrategy: None
         name:
           regexp: "{{ .Values.envType }}ArgocdClient.*"
   refreshInterval: "30s"
@@ -22,3 +24,4 @@ spec:
       engineVersion: v2
       mergePolicy: Replace
       type: Opaque
+c
