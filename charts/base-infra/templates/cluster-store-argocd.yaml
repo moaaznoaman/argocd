@@ -6,11 +6,11 @@ spec:
   provider:
     vault:
       server: "http://vault.vault.svc.cluster.local:8200"
-      path: "myk8ssecret"
+      path: "argocd-creds"
       version: "v2"
       auth:
         tokenSecretRef:
-          name: "argocd-creds"
+          name: "vault-token"
           key: "token"
 #         kubernetes:
 #           mountPath: "vcluster-1"
