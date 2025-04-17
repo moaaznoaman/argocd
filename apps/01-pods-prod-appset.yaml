@@ -3,8 +3,8 @@ kind: ApplicationSet
 metadata:
   name: pods-appset-prod
   namespace: argocd
-  # annotations:
-  #   argocd.argoproj.io/sync-wave: "-1"
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
