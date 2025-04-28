@@ -59,6 +59,8 @@ spec:
                 prometheus:
                   annotations:
                     argocd.argoproj.io/skip-health-check: 'true'
+                grafana:
+                  enabled: true
             parameters:
               - name: kube-prometheus-stack.enabled
                 value: "true"
