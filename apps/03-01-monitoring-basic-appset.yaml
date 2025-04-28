@@ -36,6 +36,9 @@ spec:
 #              - "$valuesnew/environments/{{ .metadata.labels.env }}/values.yaml"
             values: |
                 prometheusSpec:
+                  admissionWebhooks:
+                    patch:
+                      enabled: false
                   additionalScrapeConfigs:
                   - job_name: 'kube-prometheus'
                     kubernetes_sd_configs:
