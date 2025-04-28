@@ -104,9 +104,8 @@ kube-prometheus-stack:
             receiver: ops_monitoring_slack
   grafana:
     enabled: true
-    # admin:
-    #   existingSecret: "monitoring-secrets"
-    # adminPassword: xxx # Passed from secrets
+    admin:
+      existingSecret: "grafana-secret-creds"
     # dashboardProviders:
     #   dashboardproviders.yaml:
     #     apiVersion: 1
