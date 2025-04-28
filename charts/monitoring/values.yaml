@@ -103,24 +103,24 @@ kube-prometheus-stack:
               team: ops
             receiver: ops_monitoring_slack
   grafana:
-    enabled: false
-    admin:
-      existingSecret: "monitoring-secrets"
+    enabled: true
+    # admin:
+    #   existingSecret: "monitoring-secrets"
     # adminPassword: xxx # Passed from secrets
-    dashboardProviders:
-      dashboardproviders.yaml:
-        apiVersion: 1
-        providers:
-          - disableDeletion: false
-            editable: true
-            folder: ""
-            name: filia-dashboards
-            options:
-              path: /var/lib/grafana/dashboards/filia-dashboards
-            orgId: 1
-            type: file
-    dashboardsConfigMaps:
-      filia-dashboards: filia-dashboards-configmap
+    # dashboardProviders:
+    #   dashboardproviders.yaml:
+    #     apiVersion: 1
+    #     providers:
+    #       - disableDeletion: false
+    #         editable: true
+    #         folder: ""
+    #         name: filia-dashboards
+    #         options:
+    #           path: /var/lib/grafana/dashboards/filia-dashboards
+    #         orgId: 1
+    #         type: file
+    # dashboardsConfigMaps:
+    #   filia-dashboards: filia-dashboards-configmap
     datasources:
       datasources.yaml:
         apiVersion: 1
@@ -137,8 +137,8 @@ kube-prometheus-stack:
         org_role: Viewer
       auth.basic:
         enabled: true
-      dashboards:
-        default_home_dashboard_path: /var/lib/grafana/dashboards/filia-dashboards/core-system.json
+      # dashboards:
+      #   default_home_dashboard_path: /var/lib/grafana/dashboards/filia-dashboards/core-system.json
     podAnnotations:
       reloader.stakater.com/auto: "true"
     sidecar:
@@ -148,16 +148,16 @@ kube-prometheus-stack:
             enabled: true
       datasources:
         defaultDatasourceEnabled: false
-    ingress:
-      enabled: true
-      ingressClassName: public
-      annotations: {}
-      hosts:
-        - xxx
-      tls:
-        - secretName: monitoring-tls-secret
-          hosts:
-            - xxx
+    # ingress:
+    #   enabled: true
+    #   ingressClassName: public
+    #   annotations: {}
+    #   hosts:
+    #     - xxx
+    #   tls:
+    #     - secretName: monitoring-tls-secret
+    #       hosts:
+    #         - xxx
   kubeControllerManager:
     enabled: false
   kubeScheduler:
