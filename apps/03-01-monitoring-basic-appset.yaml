@@ -18,6 +18,8 @@ spec:
         app: "infra"
         envType: "{{ .metadata.labels.env }}"
         appset: monitoring
+      annotations:
+        argocd.argoproj.io/sync-wave: '1'
     spec:
       project: infra
       sources:
