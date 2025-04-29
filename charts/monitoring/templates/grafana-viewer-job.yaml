@@ -21,7 +21,7 @@ data:
       tasks:
         - name: Create a user in Grafana
           uri:
-            url: "{{ grafana_svc_url }}/api/admin/users"
+            url: "{{ `{{ grafana_svc_url }}` }}/api/admin/users"
             method: POST
             user: "{{ grafana_admin_user }}"
             password: "{{ grafana_admin_password }}"
@@ -47,8 +47,8 @@ metadata:
     argocd.argoproj.io/sync-wave: '3'
     # argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
   labels:
-    app: grafana-config-update
-  name: grafana-config-update
+    app: grafana-user-register
+  name: grafana-user-register
   namespace: {{ .Values.namespace }}
 spec:
   template:
