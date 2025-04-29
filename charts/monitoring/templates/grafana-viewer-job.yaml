@@ -38,11 +38,6 @@ data:
             body_format: json
             status_code: [200, 412]
           register: create_user_response
-
-        - name: Log user creation result
-          debug:
-            msg: >-
-              User creation response: {{ create_user_response.json.message | default('User created') }}
 ---
 apiVersion: batch/v1
 kind: Job
