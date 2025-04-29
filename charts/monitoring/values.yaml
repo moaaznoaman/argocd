@@ -5,6 +5,10 @@ vaultUrl: "https://env-suite.vault.azure.net/"
 # For the external secrets operator to pull secrets
 suite: cbtest
 
+prometheusSpec:
+  admissionWebhooks:
+    patch:
+      enabled: false
 promtail:
   enabled: false
   config:
@@ -171,6 +175,9 @@ kube-prometheus-stack:
         service.beta.kubernetes.io/azure-load-balancer-internal: "true"
         service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "ingress-internal"
     prometheusSpec:
+      admissionWebhooks:
+        patch:
+          enabled: false
       portName: http
       resources:
         limits:
