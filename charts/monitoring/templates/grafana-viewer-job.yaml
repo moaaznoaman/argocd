@@ -12,7 +12,7 @@ data:
       gather_facts: no
       connection: local
       vars:
-        grafana_svc_url: "prometheus-grafana.monitoring.svc:80"
+        grafana_url: "http://prometheus-grafana.monitoring.svc:80"
         grafana_admin_user: "admin"
         grafana_admin_password: "{{ `{{ lookup('env', 'admin-password') }}` }}"
         grafana_viewer_user: "viewer"
@@ -21,7 +21,7 @@ data:
       tasks:
         - name: Create a user in Grafana
           uri:
-            url: "{{ `{{ grafana_svc_url }}` }}/api/admin/users"
+            url: "{{ `{{ grafana_url }}` }}/api/admin/users"
             method: POST
             user: "{{ `{{ grafana_admin_user }}` }}"
             password: "{{ `{{ grafana_admin_password }}` }}"
