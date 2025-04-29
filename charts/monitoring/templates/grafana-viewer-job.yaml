@@ -22,7 +22,7 @@ data:
       tasks:
         - name: Print GRAFANA_URL from environment
           debug:
-            msg: "grafana_url_new = {{ grafana_url_new }}"
+            msg: "grafana_url_new = `{{ grafana_url_new }}` }}"
 
         - name: Create a user in Grafana
           uri:
