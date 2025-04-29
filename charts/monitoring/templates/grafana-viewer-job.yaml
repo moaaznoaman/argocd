@@ -22,7 +22,7 @@ data:
       tasks:
         - name: Create a user in Grafana
           uri:
-            url: "{{ `{{ grafana_url }}` }}/api/admin/users"
+            url: "{{ `{{ grafana_url_new }}` }}/api/admin/users"
             method: POST
             user: "{{ `{{ grafana_admin_user }}` }}"
             password: "{{ `{{ grafana_admin_password }}` }}"
