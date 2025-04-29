@@ -1,7 +1,7 @@
 ---
 # prometheus: {}
 vaultUrl: "https://env-suite.vault.azure.net/"
-
+envDomain: "grafana.cluster.local"
 # For the external secrets operator to pull secrets
 suite: cbtest
 
