@@ -13,7 +13,7 @@ data:
       connection: local
       vars:
         grafana_url: "http://prometheus-grafana.monitoring.svc:80"
-        grafana_url_new: "{{ `{{ lookup('env', 'GRAFANA_URL') }}` }}"
+        # grafana_url_new: "{{ `{{ lookup('env', 'grafana_url') }}` }}"
         grafana_admin_user: "admin"
         grafana_admin_password: "{{ `{{ lookup('env', 'admin-password') }}` }}"
         grafana_viewer_user: "viewer"
@@ -22,7 +22,7 @@ data:
       tasks:
         - name: Create a user in Grafana
           uri:
-            url: "{{ `{{ grafana_url_new }}` }}/api/admin/users"
+            url: "{{ `{{ grafana_url }}` }}/api/admin/users"
             method: POST
             user: "{{ `{{ grafana_admin_user }}` }}"
             password: "{{ `{{ grafana_admin_password }}` }}"
@@ -74,7 +74,7 @@ spec:
             - "/playbooks/main.yaml"
             # - "-vv"
           env:
-            - name: GRAFANA_URL
+            - name: grafana_url
               value: {{ printf "grafana.%s" .Values.envDomain | quote }}
           envFrom:
             - secretRef:
