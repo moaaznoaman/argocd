@@ -23,17 +23,17 @@ data:
           uri:
             url: "{{ `{{ grafana_svc_url }}` }}/api/admin/users"
             method: POST
-            user: "{{ grafana_admin_user }}"
-            password: "{{ grafana_admin_password }}"
+            user: "{{ `{{ grafana_admin_user }}` }}"
+            password: "{{ `{{ grafana_admin_password }}` }}"
             force_basic_auth: yes
             headers:
               Content-Type: "application/json"
             body: |
               {
-                "name": "{{ grafana_viewer_user }}",
-                "email": "{{ new_user_email }}",
-                "login": "{{ grafana_viewer_user }}",
-                "password": "{{ grafana_viewer_password }}"
+                "name": "{{ `{{ grafana_viewer_user }}` }}",
+                "email": "{{ `{{ new_user_email }}` }}",
+                "login": "{{ `{{ grafana_viewer_user }}` }}",
+                "password": "{{ `{{ grafana_viewer_password }}` }}"
               }
             body_format: json
             status_code: 200
