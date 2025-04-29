@@ -20,10 +20,6 @@ data:
         grafana_viewer_password: "{{ `{{ lookup('env', 'viewer-password') }}` }}"
         new_user_email: "viewer@local"
       tasks:
-        - name: Print GRAFANA_URL from environment
-          debug:
-            msg: "grafana_url_new `{{ grafana_url_new }}` }}"
-
         - name: Create a user in Grafana
           uri:
             url: "{{ `{{ grafana_url }}` }}/api/admin/users"
