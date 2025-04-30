@@ -67,6 +67,9 @@ spec:
           emptyDir: {}
       containers:
         - name: ansible-grafana
+          securityContext:
+            runAsUser: 1000
+            readOnlyRootFilesystem: true
           image: docker.io/alpine/ansible:2.18.1
           command:
             - ansible-playbook
