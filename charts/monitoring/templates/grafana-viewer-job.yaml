@@ -88,9 +88,9 @@ spec:
               mountPath: /playbooks
             - name: tmpdir
               mountPath: /.ansible
-          securityContext:
-            runAsUser: 1000
-            readOnlyRootFilesystem: true
+          # securityContext:
+          #   runAsUser: 1000
+          #   readOnlyRootFilesystem: true
   podFailurePolicy:
     rules:
       - action: FailJob
