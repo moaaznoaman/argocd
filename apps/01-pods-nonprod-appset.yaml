@@ -8,8 +8,8 @@ metadata:
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=zero"]
-  # syncPolicy:
-  #   preserveResourcesOnDeletion: true
+  syncPolicy:
+    preserveResourcesOnDeletion: true
   generators:
     - matrix:
         generators:
