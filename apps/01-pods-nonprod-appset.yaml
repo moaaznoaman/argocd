@@ -10,6 +10,9 @@ spec:
   goTemplateOptions: ["missingkey=error"]
   syncPolicy:
     applicationsSync: create-update
+    automated:
+      selfHeal: true
+      prune: false
   generators:
     - matrix:
         generators:
@@ -21,7 +24,7 @@ spec:
               repoURL: https://github.com/moaaznoaman/argocd-variables.git
               revision: "{{ .metadata.labels.envBranch }}" # HEAD
               directories:
-                - path: environments/nonexistant
+                - path: environments/*
                 - path: environments/prod
                   exclude: true
   template:
