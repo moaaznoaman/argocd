@@ -10,9 +10,6 @@ spec:
   goTemplateOptions: ["missingkey=error"]
   syncPolicy:
     applicationsSync: create-update
-    automated:
-      selfHeal: true
-      prune: false
   generators:
     - matrix:
         generators:
