@@ -9,7 +9,7 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=zero"]
   syncPolicy:
-    applicationsSync: create-update
+    applicationsSync: create-only
   generators:
     - matrix:
         generators:
