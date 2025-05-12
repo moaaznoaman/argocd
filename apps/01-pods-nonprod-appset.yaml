@@ -8,6 +8,9 @@ metadata:
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
+  syncPolicy:
+    prune: true
+    applicationsSync: create-update
   generators:
     - matrix:
         generators:
@@ -22,22 +25,6 @@ spec:
                 - path: environments/*
                 - path: environments/prod
                   exclude: true
-
-#    - git:
-#        repoURL: https://github.com/moaaznoaman/argocd-variables.git
-#        revision: HEAD
-#        directories:
-#          - path: environments/*
-#          matchExpressions:
-#            - {
-#              key: "name",
-#              operator: In,
-#              values: ["vcluster2"],
-#            }
-#     - list:
-#         elements:
-#           - chartName: "podschart"
-
   template:
     metadata:
       name: "pods-{{.path.basename}}-{{.name}}"
