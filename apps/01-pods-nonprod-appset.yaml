@@ -21,7 +21,7 @@ spec:
               repoURL: https://github.com/moaaznoaman/argocd-variables.git
               revision: "{{ .metadata.labels.envBranch }}" # HEAD
               directories:
-                - path: environments/*
+                - path: environments/nonexist
                 - path: environments/prod
                   exclude: true
   template:
