@@ -17,9 +17,9 @@ spec:
                   - { key: "env", operator: In, values: [ "dev" ] }
           - git:
               repoURL: https://github.com/moaaznoaman/argocd-variables.git
-              revision: nonexist # "{{ .metadata.labels.envBranch }}" # HEAD
+              revision: "{{ .metadata.labels.envBranch }}" # HEAD
               directories:
-                - path: environments/*
+                - path: environments/nonexist
                 - path: environments/prod
                   exclude: true
 
