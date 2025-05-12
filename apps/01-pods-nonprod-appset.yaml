@@ -55,8 +55,8 @@ spec:
         namespace: "{{ .metadata.labels.env }}" #TODO: check this
       syncPolicy:
         automated:
-          prune: true
           selfHeal: true
+          prune: false
         # syncOptions:
         #   - ServerSideApply=true # Big CRDs.
         #   - ApplyOutOfSyncOnly=true
