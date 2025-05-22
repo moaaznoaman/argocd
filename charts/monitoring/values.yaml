@@ -210,38 +210,3 @@ kube-prometheus-stack:
       requests:
         cpu: 100m
         memory: 100Mi
-
-
-# promtail helm chart values
-promtail:
-  enabled: false
-  config:
-    clients:
-      - url: http://default/loki/api/v1/push
-    extraVolumeMounts:
-      - mountPath: /var/log/journal
-        name: journal
-        readOnly: true
-    extraVolumes:
-      - hostPath:
-          path: /var/log/journal
-        name: journal
-    # server:
-    #   grpc_server_max_recv_msg_size: 8388608
-    #   grpc_server_max_send_msg_size: 8388608
-    snippets:
-      pipeline_stages:
-        - cri: {}
-        - json:
-            expressions:
-              level: level
-              request_id: request_id
-              time: time
-        - labels:
-            level:
-      extraRelabelConfigs:
-        - action: labeldrop
-          regex: "(app|container|instance|component|namespace)"
-        - action: replace
-          replacement: default
-          target_label: suite
