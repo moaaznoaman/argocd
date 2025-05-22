@@ -4,6 +4,7 @@ namespaces:
   - system
   - ingress
   - monitoring
+  - logging
 
 additionalNamespaces: []
 
