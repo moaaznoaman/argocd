@@ -23,12 +23,12 @@ spec:
     spec:
       project: infra
       sources:
-        - repoURL: git@ssh.dev.azure.com:v3/advance52/filia/filia-environments
-          targetRevision: "{{ .metadata.labels.environmentsBranch }}"
+        - repoURL: git@github.com:moaaznoaman/argocd-variables.git
+          targetRevision: "{{ .metadata.labels.envBranch }}"
           ref: values
-        - repoURL: "git@ssh.dev.azure.com:v3/advance52/filia/filia-gitops"
-          path: charts/logging
-          targetRevision: "{{ .metadata.labels.gitopsBranch }}"
+        - repoURL: "git@github.com:moaaznoaman/argocd.git"
+          path: charts/monitoring
+          targetRevision: HEAD # "{{ .metadata.labels.gitopsBranch }}"
           helm:
             ignoreMissingValueFiles: true
             releaseName: "prometheus"
