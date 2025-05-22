@@ -16,7 +16,7 @@ spec:
       labels:
         env: "{{ .metadata.labels.env }}"
         app: "infra"
-        envType: "{{ .metadata.labels.envType }}"
+        envType: "{{ .metadata.labels.env }}"
         appset: logging
       annotations:
         argocd.argoproj.io/sync-wave: "1"
