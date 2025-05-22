@@ -71,6 +71,8 @@ spec:
                 value: "true"
               - name: kube-prometheus-stack.prometheus.enabled
                 value: "true"
+              - name: promtail.enabled
+                value: "{{ .metadata.labels.logging }}"
       destination:
         name: "{{ .name }}"
         namespace: "monitoring"
