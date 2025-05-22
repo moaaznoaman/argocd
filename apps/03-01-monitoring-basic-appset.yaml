@@ -66,6 +66,8 @@ spec:
                     argocd.argoproj.io/skip-health-check: 'true'
                 grafana:
                   enabled: true
+                promtail
+                  enabled: true
             parameters:
               - name: kube-prometheus-stack.enabled
                 value: "true"
