@@ -127,14 +127,14 @@ kube-prometheus-stack:
     #   filia-dashboards: filia-dashboards-configmap
     datasources:
       datasources.yaml:
-      - apiVersion: 1
+        apiVersion: 1
         datasources:
           - access: proxy
             isDefault: true
             name: prometheus
             type: prometheus
             url: http://prometheus-kube-prometheus-prometheus.monitoring.svc:9090
-      - apiVersion: 1
+        apiVersion: 1
         datasources:
           - name: Loki
             type: loki
