@@ -15,14 +15,14 @@ promtail:
   config:
     clients:
       - url: http://prometheus-loki-gateway.monitoring.svc.cluster.local/loki/api/v1/push
-    extraVolumeMounts:
-      - mountPath: /var/log/journal
-        name: journal
-        readOnly: true
-    extraVolumes:
-      - hostPath:
-          path: /var/log/journal
-        name: journal
+#    extraVolumeMounts:
+#      - mountPath: /var/log/journal
+#        name: journal
+#        readOnly: true
+#    extraVolumes:
+#      - hostPath:
+#          path: /var/log/journal
+#        name: journal
     # server:
     #   grpc_server_max_recv_msg_size: 8388608
     #   grpc_server_max_send_msg_size: 8388608
