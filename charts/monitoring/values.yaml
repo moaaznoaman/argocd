@@ -357,7 +357,7 @@ loki:
   gateway:
     basicAuth:
       enabled: true
-      existingSecret: loki-new-basic-auth
+      existingSecret: loki-basic-auth-htpasswd
 #  serviceAccount:
 #    name: loki # The app ID of the Azure AD app
 #    labels:
