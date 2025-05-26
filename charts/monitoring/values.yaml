@@ -164,7 +164,7 @@ kube-prometheus-stack:
             url: 'http://prometheus-loki-gateway.monitoring.svc.cluster.local'
             access: proxy
             basicAuth: true
-            basicAuthUser: loki
+            basicAuthUser: $__env{USERNAME}
             secureJsonData:
               basicAuthPassword: $__env{PASSWORD}
     grafana.ini:
