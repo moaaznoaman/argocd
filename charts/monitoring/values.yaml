@@ -13,6 +13,7 @@ prometheusSpec:
 promtail:
   enabled: false
   config:
+    logLevel: debug
     clients:
       - url: http://prometheus-loki-gateway.monitoring.svc.cluster.local/loki/api/v1/push
 #    extraVolumeMounts:
