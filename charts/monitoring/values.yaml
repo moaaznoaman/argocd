@@ -349,6 +349,10 @@ loki:
     retention_deletes_enabled: "false"
     retention_period: "336h"
 
+  gateway:
+    basicAuth:
+      enabled: true
+      existingSecret: loki-basic-auth
 #  serviceAccount:
 #    name: loki # The app ID of the Azure AD app
 #    labels:
