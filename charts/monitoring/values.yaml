@@ -130,12 +130,7 @@ kube-prometheus-stack:
               team: ops
             receiver: ops_monitoring_slack
   grafana:
-    env:
-      - name: LOKI_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: loki-new-basic-auth
-            key: password
+    envFromSecret: "loki-new-basic-auth"
     enabled: true
     admin:
       existingSecret: "grafana-secret-creds"
@@ -171,7 +166,7 @@ kube-prometheus-stack:
             basicAuth: true
             basicAuthUser: loki
             secureJsonData:
-              basicAuthPassword: $__env{LOKI_PASSWORD}
+              basicAuthPassword: $__env{password}
     grafana.ini:
       auth.anonymous:
         enabled: false
