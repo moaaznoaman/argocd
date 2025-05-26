@@ -14,7 +14,7 @@ promtail:
   enabled: false
   config:
     clients:
-      - url: http://default/loki/api/v1/push
+      - url: http://prometheus-loki-gateway.monitoring.svc.cluster.local/loki/api/v1/push
     extraVolumeMounts:
       - mountPath: /var/log/journal
         name: journal
