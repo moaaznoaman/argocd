@@ -166,7 +166,7 @@ kube-prometheus-stack:
             basicAuth: true
             basicAuthUser: loki
             secureJsonData:
-              basicAuthPassword: $__env{password}
+              basicAuthPassword: $__env{PASSWORD}
     grafana.ini:
       auth.anonymous:
         enabled: false
