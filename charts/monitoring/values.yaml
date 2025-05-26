@@ -39,9 +39,9 @@ promtail:
       extraRelabelConfigs:
         - action: labeldrop
           regex: "(app|container|instance|component|namespace)"
-        - action: replace
-          replacement: default
-          target_label: suite
+#        - action: replace
+#          replacement: default
+#          target_label: suite
 
 kube-prometheus-stack:
   enabled: false
