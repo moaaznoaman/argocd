@@ -73,6 +73,8 @@ spec:
                 value: "true"
               - name: promtail.enabled
                 value: "{{ .metadata.labels.logging }}"
+              - name: loki.enabled
+                value: "{{ .metadata.labels.logging }}"
       destination:
         name: "{{ .name }}"
         namespace: "monitoring"
