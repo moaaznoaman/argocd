@@ -37,7 +37,7 @@ promtail:
               time: time
         - labels:
             level:
-      scrapeConfigs:
+      scrapeConfigs: |
         - job_name: kubernetes-pods
           static_configs:
             - targets:
