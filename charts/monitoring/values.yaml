@@ -130,6 +130,12 @@ kube-prometheus-stack:
               team: ops
             receiver: ops_monitoring_slack
   grafana:
+    env:
+      - name: LOKI_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: loki-new-basic-auth
+            key: password
     enabled: true
     admin:
       existingSecret: "grafana-secret-creds"
@@ -165,7 +171,7 @@ kube-prometheus-stack:
             basicAuth: true
             basicAuthUser: loki
             secureJsonData:
-              basicAuthPassword: "password"
+              basicAuthPassword: $__env{LOKI_PASSWORD}
     grafana.ini:
       auth.anonymous:
         enabled: false
@@ -356,7 +362,7 @@ loki:
   gateway:
     basicAuth:
       enabled: true
-      existingSecret: loki-basic-auth
+      existingSecret: loki-new-basic-auth
 #  serviceAccount:
 #    name: loki # The app ID of the Azure AD app
 #    labels:
