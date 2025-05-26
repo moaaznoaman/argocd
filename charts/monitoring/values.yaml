@@ -234,13 +234,13 @@ loki:
     enabled: false
   backend:
     enabled: false
-    replicas: 1
+    replicas: 0
   read:
     enabled: false
-    replicas: 1
+    replicas: 0
   write:
     enabled: false
-    replicas: 1
+    replicas: 0
 
   loki:
     auth_enabled: false
@@ -319,36 +319,6 @@ loki:
 
     rbac:
       pspEnabled: false
-
-    backend:
-      extraArgs:
-        - -config.expand-env=true
-      autoscaling:
-        enabled: true
-        maxReplicas: 3
-        minReplicas: 1
-        targetCPUUtilizationPercentage: 85
-        targetMemoryUtilizationPercentage: 85
-
-    read:
-      extraArgs:
-        - -config.expand-env=true
-      autoscaling:
-        enabled: true
-        maxReplicas: 3
-        minReplicas: 1
-        targetCPUUtilizationPercentage: 85
-        targetMemoryUtilizationPercentage: 85
-
-    write:
-      extraArgs:
-        - -config.expand-env=true
-      autoscaling:
-        enabled: true
-        maxReplicas: 3
-        minReplicas: 1
-        targetCPUUtilizationPercentage: 85
-        targetMemoryUtilizationPercentage: 85
 
     querier:
       max_concurrent: 4
