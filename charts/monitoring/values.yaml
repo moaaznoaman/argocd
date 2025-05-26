@@ -251,11 +251,11 @@ loki:
           store: memberlist
 
     compactor:
-      compaction_interval: 10m
-      retention_delete_delay: 2h
-      retention_delete_worker_count: 150
-      retention_enabled: true
-      working_directory: /var/loki/data/retention
+      retention_enabled: false
+#      compaction_interval: 10m
+#      retention_delete_delay: 2h
+#      retention_delete_worker_count: 150
+#      working_directory: /var/loki/data/retention
 
     ingester:
       chunk_encoding: snappy
