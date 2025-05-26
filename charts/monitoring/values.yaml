@@ -138,7 +138,7 @@ kube-prometheus-stack:
         datasources:
           - name: Loki
             type: loki
-            url: 'http://default/loki/api/v1/push'
+            url: 'http://prometheus-loki-gateway.monitoring.svc.cluster.local/loki/api/v1/push'
             basicAuth: false
     grafana.ini:
       auth.anonymous:
