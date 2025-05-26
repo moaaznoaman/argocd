@@ -220,6 +220,7 @@ kube-prometheus-stack:
 
 loki:
   singleBinary:
+    replicas: 1
     persistence:
       enabled: true
       storageClassName: standard  # or "local-path" or any StorageClass in your cluster
@@ -232,10 +233,13 @@ loki:
   test:
     enabled: false
   backend:
+    enabled: false
     replicas: 1
   read:
+    enabled: false
     replicas: 1
   write:
+    enabled: false
     replicas: 1
 
   loki:
