@@ -246,13 +246,16 @@ kube-prometheus-stack:
         memory: 100Mi
 
 loki:
+  nodeSelector: &nodeSelector
+    nodeSelector: "minikube-vcluster"
+
   commonAffinity: &commonAffinity
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
           - matchExpressions:
               - key: "role"
-                operator: In
+                operator: Equals
                 values:
                   - logging
     podAntiAffinity: {}
@@ -264,7 +267,8 @@ loki:
 #      effect: "NoSchedule"
 
   chunksCache:
-    affinity: *commonAffinity
+    nodeSelector: *nodeSelector
+#    affinity: *commonAffinity
 #    tolerations: *commonTolerations
 
   singleBinary:
