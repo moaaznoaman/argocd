@@ -246,20 +246,20 @@ kube-prometheus-stack:
         memory: 100Mi
 
 loki:
-  nodeSelector: &nodeSelector
-    role: "loggin"
-#    nodeSelector: "minikube-vcluster"
-
-  commonAffinity: &commonAffinity
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: "role"
-                operator: Equals
-                values:
-                  - logging
-    podAntiAffinity: {}
+#  nodeSelector: &nodeSelector
+#    role: "loggin"
+##    nodeSelector: "minikube-vcluster"
+#
+#  commonAffinity: &commonAffinity
+#    nodeAffinity:
+#      requiredDuringSchedulingIgnoredDuringExecution:
+#        nodeSelectorTerms:
+#          - matchExpressions:
+#              - key: "role"
+#                operator: Equals
+#                values:
+#                  - logging
+#    podAntiAffinity: {}
 
 #  commonTolerations: &commonTolerations
 #    - key: "logging"
@@ -267,8 +267,8 @@ loki:
 #      value: "true"
 #      effect: "NoSchedule"
 
-  chunksCache:
-    nodeSelector: *nodeSelector
+#  chunksCache:
+#    nodeSelector: *nodeSelector
 #    affinity: *commonAffinity
 #    tolerations: *commonTolerations
 
@@ -384,7 +384,7 @@ loki:
     basicAuth:
       enabled: true
       existingSecret: loki-basic-auth-htpasswd # loki-secret-creds
-    affinity: *commonAffinity
+#    affinity: *commonAffinity
 #      tolerations: *commonTolerations
 #  serviceAccount:
 #    name: loki # The app ID of the Azure AD app
