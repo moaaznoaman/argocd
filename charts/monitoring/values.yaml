@@ -379,7 +379,7 @@ loki:
     basicAuth:
       enabled: true
       existingSecret: loki-basic-auth-htpasswd # loki-secret-creds
-      affinity: *commonAffinity
+    affinity: *commonAffinity
 #      tolerations: *commonTolerations
 #  serviceAccount:
 #    name: loki # The app ID of the Azure AD app
