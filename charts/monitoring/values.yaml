@@ -246,8 +246,8 @@ kube-prometheus-stack:
         memory: 100Mi
 
 loki:
-  nodeSelector: &nodeSelector
-    nodeSelector: "minikube-vcluster"
+  nodeSelector: &nodeSelector "minikube-vcluster"
+#    nodeSelector: "minikube-vcluster"
 
   commonAffinity: &commonAffinity
     nodeAffinity:
