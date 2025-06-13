@@ -1,0 +1,8 @@
+pods:
+  - backend
+
+environment: ""
+servicename: ""
+namespace: "backend"
+
+additionalNamespaces: []

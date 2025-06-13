@@ -1,0 +1,21 @@
+{{- range .Values.pods }}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: '{{ . }}'
+  labels: 
+    app: app
+spec:
+  containers:
+  - image: httpd:latest
+    imagePullPolicy: IfNotPresent
+    name: http
+{{- end }}
+# {{- range .Values.additionalNamespaces }}
+# ---
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: '{{ .Values.environment }}'
+# {{- end }}
