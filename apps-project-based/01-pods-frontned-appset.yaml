@@ -15,7 +15,7 @@ spec:
             - { key: "env", operator: In, values: [ "prod" ] }
   template:
     metadata:
-      name: "pods-{{ .metadata.labels.env }}-{{.name}}"
+      name: "frontend-{{.name}}"
       namespace: argocd
       labels:
         env: "{{ .metadata.labels.env }}"
