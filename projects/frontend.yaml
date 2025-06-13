@@ -7,7 +7,7 @@ spec:
   description: Frontend Project
   destinations:
     - namespace: 'frontend'
-      server: 'https://10.110.177.65:443'
+      server: 'https://10.97.45.162:443'
   namespaceResourceWhitelist:
     - group: '*'
       kind: '*'

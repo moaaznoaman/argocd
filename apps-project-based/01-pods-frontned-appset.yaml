@@ -30,7 +30,7 @@ spec:
           targetRevision: HEAD
           ref: valuesnew
         - repoURL: git@github.com:moaaznoaman/argocd.git
-          path: charts/pods
+          path: charts/frontend
           targetRevision: HEAD
           helm:
             valueFiles:
