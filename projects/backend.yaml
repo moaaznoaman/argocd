@@ -7,7 +7,7 @@ spec:
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
-  description: Infra Project
+  description: Backend Project
   destinations:
     - namespace: '*'
       server: '*'

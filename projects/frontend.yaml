@@ -1,19 +1,29 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: backend
+  name: frontend
   namespace: argocd
 spec:
-  clusterResourceWhitelist:
-    - group: '*'
-      kind: '*'
-  description: Infra Project
+  description: Frontend Project
   destinations:
-    - namespace: '*'
-      server: '*'
+    - namespace: 'frontend'
+      server: 'https://10.110.177.65:443'
   namespaceResourceWhitelist:
     - group: '*'
       kind: '*'
+  namespaceResourceBlacklist:
+    - group: 'argoproj.io'
+      kind: Application
+    - group: namespaceResourceBlacklist
+      kind: AppProject
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  clusterResourceBlacklist:
+    - group: 'rbac.authorization.k8s.io'
+      kind: ClusterRole
+    - group: 'rbac.authorization.k8s.io'
+      kind: ClusterRoleBinding
   sourceRepos:
     - git@github.com:moaaznoaman/argocd.git
     - git@github.com:moaaznoaman/argocd-variables.git

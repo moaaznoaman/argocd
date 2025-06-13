@@ -1,0 +1,8 @@
+pods:
+  - frontend
+
+environment: ""
+servicename: ""
+namespace: "frontend"
+
+additionalNamespaces: []

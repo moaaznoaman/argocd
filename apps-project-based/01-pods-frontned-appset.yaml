@@ -1,0 +1,50 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: frontend-appset
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - clusters:
+        selector:
+          matchExpressions:
+            - { key: "env", operator: In, values: [ "prod" ] }
+  template:
+    metadata:
+      name: "pods-{{ .metadata.labels.env }}-{{.name}}"
+      namespace: argocd
+      labels:
+        env: "{{ .metadata.labels.env }}"
+        app: "infra"
+    spec:
+      project: frontend
+      sources:
+        - repoURL: git@github.com:moaaznoaman/argocd-variables.git
+          targetRevision: "{{ .metadata.labels.envBranch }}"
+          ref: values
+        - repoURL: git@github.com:moaaznoaman/argocd-variables-new.git
+          targetRevision: HEAD
+          ref: valuesnew
+        - repoURL: git@github.com:moaaznoaman/argocd.git
+          path: charts/pods
+          targetRevision: HEAD
+          helm:
+            valueFiles:
+              - "values.yaml"
+              - "$values/environments/frontend/values.yaml"
+              - "$valuesnew/environments/frontend/values.yaml"
+      destination:
+        name: "{{.name}}" # "{{ .metadata.labels.name }}" # https://kubernetes.default.svc
+        namespace: "frontend"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        # syncOptions:
+        #   - ServerSideApply=true # Big CRDs.
+        #   - ApplyOutOfSyncOnly=true
+        #   - preserveResourcesOnDeletion=true
