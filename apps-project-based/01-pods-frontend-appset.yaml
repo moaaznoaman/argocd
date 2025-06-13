@@ -36,7 +36,7 @@ spec:
             valueFiles:
               - "values.yaml"
               - "$values/environments/frontend/values.yaml"
-              - "$valuesnew/environments/frontend/values.yaml"
+#              - "$valuesnew/environments/frontend/values.yaml"
       destination:
         name: "{{.name}}" # "{{ .metadata.labels.name }}" # https://kubernetes.default.svc
         namespace: "frontend"
