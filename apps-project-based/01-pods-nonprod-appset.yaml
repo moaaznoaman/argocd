@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: pods-appset-dev
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=zero"]
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+    - matrix:
+        generators:
+          - clusters:
+              selector:
+                matchExpressions:
+                  - { key: "env", operator: In, values: [ "dev" ] }
+          - git:
+              repoURL: https://github.com/moaaznoaman/argocd-variables.git
+              revision: "{{ .metadata.labels.envBranch }}" # HEAD
+              directories:
+                - path: environments/*
+                - path: environments/prod
+                  exclude: true
+  template:
+    metadata:
+      name: "pods-{{.path.basename}}-{{.name}}"
+      namespace: argocd
+      labels:
+        env: "{{ .metadata.labels.env }}"
+        app: "infra"
+        # prod: "true"
+        # envType: "{{ .metadata.labels.env_type }}"
+    spec:
+      project: infra
+      sources:
+        - repoURL: git@github.com:moaaznoaman/argocd-variables.git
+          targetRevision: "{{ .metadata.labels.envBranch }}"
+          ref: values
+        - repoURL: git@github.com:moaaznoaman/argocd-variables-new.git
+          targetRevision: HEAD
+          ref: valuesnew
+        - repoURL: git@github.com:moaaznoaman/argocd.git
+          path: charts/pods
+          targetRevision: HEAD
+          helm:
+            valueFiles:
+              - "values.yaml"
+              - "$values/environments/{{.path.basename}}/values.yaml"
+              - "$valuesnew/environments/{{.path.basename}}/values.yaml"
+      destination:
+        name: "{{.name}}" # "{{ .metadata.labels.name }}" # https://kubernetes.default.svc
+        namespace: "{{ .metadata.labels.env }}" #TODO: check this
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: false
+        syncOptions:
+          - preserveResourcesOnDeletion=true

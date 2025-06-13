@@ -1,0 +1,62 @@
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: logging-basic
+# spec:
+#   goTemplate: true
+#   goTemplateOptions: ["missingkey=error"]
+#   generators:
+#     - clusters:
+#         selector:
+#           matchExpressions:
+#             - { key: "logging", operator: In, values: ["true"] }
+#   template:
+#     metadata:
+#       name: "{{ .name }}-basic-logging"
+#       labels:
+#         env: "{{ .metadata.labels.env }}"
+#         app: "infra"
+#         envType: "{{ .metadata.labels.env }}"
+#         appset: logging
+#       annotations:
+#         argocd.argoproj.io/sync-wave: "1"
+#     spec:
+#       project: infra
+#       sources:
+#         - repoURL: git@github.com:moaaznoaman/argocd-variables.git
+#           targetRevision: "{{ .metadata.labels.envBranch }}"
+#           ref: values
+#         - repoURL: "git@github.com:moaaznoaman/argocd.git"
+#           path: charts/monitoring
+#           targetRevision: HEAD # "{{ .metadata.labels.gitopsBranch }}"
+#           helm:
+#             ignoreMissingValueFiles: true
+#             releaseName: "prometheus"
+#             valueFiles:
+#               - "values.yaml"
+#               - "$values/environments/{{ .metadata.labels.env }}/monitoring-basic-values.yaml"
+#             parameters:
+#               - name: promtail.enabled
+#                 value: "{{ .metadata.labels.logging }}"
+#               # - name: loki.enabled
+#               #   value: "{{ .metadata.labels.logging }}"
+#               # - name: "serviceAccount.annotations.azure\\.workload\\.identity/client-id"
+#               #   value: "{{ .metadata.labels.loggingClientId }}"
+#       destination:
+#         name: "{{ .name }}"
+#         namespace: "logging"
+#       syncPolicy:
+#         automated:
+#           selfHeal: true
+#         syncOptions:
+#           - ServerSideApply=true # Big CRDs
+#           - preserveResourcesOnDeletion=true
+#           - ApplyOutOfSyncOnly=true
+#           - Retry=true
+#           - Validate=false
+#         retry:
+#           limit: 5 # Maximum number of retries
+#           backoff:
+#             duration: 5s # Initial retry interval
+#             factor: 2 # Multiplication factor for the backoff
+#             maxDuration: 3m # Maximum retry interval
