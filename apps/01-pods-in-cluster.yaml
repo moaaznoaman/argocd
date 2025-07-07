@@ -26,7 +26,7 @@ spec:
                   exclude: true
   template:
     metadata:
-      name: "pods-in-cluster"
+      name: "pods-in-cluster-app"
       namespace: argocd
       labels:
         env: "{{ .metadata.labels.env }}"
