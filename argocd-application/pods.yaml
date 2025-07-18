@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: namespaces
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: git@github.com:moaaznoaman/argocd-variables.git
+      targetRevision: HEAD
+      ref: values
+    - repoURL: git@github.com:moaaznoaman/argocd-variables-new.git
+      targetRevision: HEAD
+      ref: valuesnew
+    - repoURL: git@github.com:moaaznoaman/argocd.git
+      path: charts/pods
+      targetRevision: HEAD
+      helm:
+        valueFiles:
+          - "values.yaml"
+          - "$values/environments/in-cluster/values.yaml"
+          - "$valuesnew/environments/in-cluster/values.yaml"
+        values: |
+          environment: {{ .metadata.labels.env }}
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+    automated:
+      selfHeal: true
+      prune: true
