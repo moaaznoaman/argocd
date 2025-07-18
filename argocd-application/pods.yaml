@@ -4,6 +4,9 @@ metadata:
   name: pods-test
   namespace: argocd
 spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
   project: default
   sources:
     - repoURL: git@github.com:moaaznoaman/argocd-variables.git
