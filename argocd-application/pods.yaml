@@ -24,7 +24,7 @@ spec:
           - "$values/environments/in-cluster/values.yaml"
           - "$valuesnew/environments/in-cluster/values.yaml"
         values: |
-          environment: "{{ .metadata.labels.env }}"
+          environment: "testdev"
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
