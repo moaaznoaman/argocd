@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: system
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cb
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: core
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: fsp1
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: fsp2
