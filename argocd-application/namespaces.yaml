@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     path: namespaces/
-    repoURL: https://github.com/moaaznoaman/argocd-variables.git
+    repoURL: https://github.com/moaaznoaman/argocd.git
     targetRevision: main
   syncPolicy:
     syncOptions:
