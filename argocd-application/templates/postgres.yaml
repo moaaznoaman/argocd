@@ -34,7 +34,6 @@ spec:
             log_disconnections = 'false'
             log_hostname = 'false'
             client_min_messages = 'error'
-            max_connections = {{ .Values.postgres.config.maxConnections }}
             shared_buffers = 256MB
             work_mem = 4MB
             maintenance_work_mem = 64MB
