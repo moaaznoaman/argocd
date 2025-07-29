@@ -23,6 +23,8 @@ spec:
             labels:
               release: prometheus
         primary:
+          podAnnotations:
+            {{ merge .Values.postgres.podAnnotations .Values.podAnnotations | toYaml | nindent 12 }}
           configuration: |
             listen_addresses = '*'
             port = '5432'
@@ -32,7 +34,7 @@ spec:
             log_disconnections = 'false'
             log_hostname = 'false'
             client_min_messages = 'error'
-            max_connections = {{ .Values.postgres.config.maxConnections }}
+              max_connections = {{ .Values.postgres.config.maxConnections }}
             shared_buffers = 256MB
             work_mem = 4MB
             maintenance_work_mem = 64MB
@@ -47,6 +49,8 @@ spec:
             enabled: true
             storageClass: premium2-disk-sc
             size: 64Gi
+          tolerations:
+            {{ .Values.postgres.tolerations | default .Values.tolerations | toYaml | nindent 12 }}
   destination:
     namespace: postgres
     server: https://kubernetes.default.svc

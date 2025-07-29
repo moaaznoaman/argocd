@@ -1,5 +1,7 @@
 tolerations: []
 
+podAnnotations: {}
+
 postgres:
   enabled: true
   podAnnotations:
@@ -8,7 +10,11 @@ postgres:
   config:
     maxConnections: 10
 
-  tolerations: []
+  tolerations:
+    - key: "type"
+      operator: "Equal"
+      value: "load-test"
+      effect: "NoSchedule"
 
   users:
     verifier:
