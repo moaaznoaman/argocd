@@ -1,0 +1,6 @@
+postgres:
+  podAnnotations:
+    reloader.stakater.com/auto: "true"
+
+  config:
+    maxConnections: 10
