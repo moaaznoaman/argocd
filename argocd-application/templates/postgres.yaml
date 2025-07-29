@@ -1,42 +1,42 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: postgres
-  namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "0"
-spec:
-  project: default
-  source:
-    chart: postgresql
-    repoURL: "registry-1.docker.io/bitnamicharts"
-    targetRevision: "16.3.2" #to be updated 16.7.20
-    helm:
-      releaseName: "postgresql"
-      values: |
-        auth:
-          existingSecret: "postgres-credentials"
-        metrics:
-          enabled: true
-          serviceMonitor:
-            enabled: true
-            labels:
-              release: prometheus
-        primary:
-          podAnnotations:
-            {{ merge .Values.postgres.podAnnotations .Values.podAnnotations | toYaml | nindent 12 }}
-          persistence:
-            enabled: true
-            storageClass: premium2-disk-sc
-            size: 64Gi
-          tolerations:
-            {{ .Values.postgres.tolerations | default .Values.tolerations | toYaml | nindent 12 }}
-  destination:
-    namespace: postgres
-    server: https://kubernetes.default.svc
-  syncPolicy:
-    # syncOptions:
-    # - CreateNamespace=true
-    automated:
-      selfHeal: true
-      prune: true
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: postgres
+#   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "0"
+# spec:
+#   project: default
+#   source:
+#     chart: postgresql
+#     repoURL: "registry-1.docker.io/bitnamicharts"
+#     targetRevision: "16.3.2" #to be updated 16.7.20
+#     helm:
+#       releaseName: "postgresql"
+#       values: |
+#         auth:
+#           existingSecret: "postgres-credentials"
+#         metrics:
+#           enabled: true
+#           serviceMonitor:
+#             enabled: true
+#             labels:
+#               release: prometheus
+#         primary:
+#           podAnnotations:
+#             {{ merge .Values.postgres.podAnnotations .Values.podAnnotations | toYaml | nindent 10 }}
+#           persistence:
+#             enabled: true
+#             storageClass: premium2-disk-sc
+#             size: 64Gi
+#           tolerations:
+#             {{ .Values.postgres.tolerations | default .Values.tolerations | toYaml | nindent 12 }}
+#   destination:
+#     namespace: postgres
+#     server: https://kubernetes.default.svc
+#   syncPolicy:
+#     # syncOptions:
+#     # - CreateNamespace=true
+#     automated:
+#       selfHeal: true
+#       prune: true
