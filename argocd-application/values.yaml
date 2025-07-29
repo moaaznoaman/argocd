@@ -1,6 +1,7 @@
 tolerations: []
 
 postgres:
+  enabled: true
   podAnnotations:
     reloader.stakater.com/auto: "true"
 
