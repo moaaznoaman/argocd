@@ -63,10 +63,6 @@ spec:
                 EOF
           tolerations:
             {{ .Values.postgres.tolerations | default .Values.tolerations | toYaml | nindent 12 }}
-          affinity:
-            {{ .Values.postgres.affinity | default .Values.affinity | toYaml | nindent 12 }}
-          resources:
-            {{ .Values.postgres.resources | toYaml | nindent 12 }}
           persistence:
             enabled: true
             storageClass: premium2-disk-sc
