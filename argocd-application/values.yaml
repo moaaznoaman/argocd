@@ -4,3 +4,18 @@ postgres:
 
   config:
     maxConnections: 10
+
+  users:
+    verifier:
+      - verifier
+    cb_pp:
+      - cb_pp_kek
+      - cb_pp_pp
+    cbms:
+      - cbms
+    fsp1_pp:
+      - fsp1_pp_kek
+      - fsp1_pp_pp
+    fsp2_pp:
+      - fsp2_pp_kek
+      - fsp2_pp_pp
