@@ -6,9 +6,9 @@ postgres:
   enabled: true
   podAnnotations:
     reloader.stakater.com/auto: "true"
-
-  config:
-    maxConnections: 10
+#
+#  config:
+#    maxConnections: 10
 
   tolerations:
     - key: "type"
