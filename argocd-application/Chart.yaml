@@ -1,3 +1,3 @@
 apiVersion: v2
-name: filia
+name: argocd-application
 version: 1.0.0
