@@ -8,6 +8,8 @@ postgres:
   config:
     maxConnections: 10
 
+  tolerations: []
+
   users:
     verifier:
       - verifier
