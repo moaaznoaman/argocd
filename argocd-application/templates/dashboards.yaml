@@ -14,7 +14,12 @@
 # {{- end }}
 
 {{- $files := .Files.Glob "dashboards/*" }}
-{{- $chunks := $files | chunk 3 }} # if your Helm supports chunking
+{{- $fileList := list }}
+{{- range $path, $file := $files }}
+  {{- $fileList = append $fileList (dict "path" $path "file" $file) }}
+{{- end }}
+
+{{- $chunks := $fileList | chunk 3 }}
 {{- range $i, $chunk := $chunks }}
 apiVersion: v1
 kind: ConfigMap
@@ -24,9 +29,10 @@ metadata:
   labels:
     grafana_dashboard: "filia"
 data:
-  {{- range $path, $file := $chunk }}
-  {{ $filename := base $path }}: |
-{{ toString $file | nindent 4 }}
+  {{- range $chunk }}
+  {{- $filename := base .path }}
+  {{ $filename }}: |
+{{ toString .file | nindent 4 }}
   {{- end }}
 ---
 {{- end }}
