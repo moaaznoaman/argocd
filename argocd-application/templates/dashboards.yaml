@@ -1,14 +1,32 @@
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: filia-dashboards-configmap
+#   namespace: monitoring
+#   labels:
+#     grafana_dashboard: "filia"
+# data:
+#   {{- $files := .Files.Glob "dashboards/*" }}
+#   {{- range $path, $file := $files }}
+#   {{ $filename := base $path }}
+#   {{ $filename }}: |
+# {{- toString $file | nindent 4 }}
+# {{- end }}
+
+{{- $files := .Files.Glob "dashboards/*" }}
+{{- $chunks := $files | chunk 3 }} # if your Helm supports chunking
+{{- range $i, $chunk := $chunks }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: filia-dashboards-configmap
+  name: filia-dashboards-configmap-{{ $i }}
   namespace: monitoring
   labels:
     grafana_dashboard: "filia"
 data:
-  {{- $files := .Files.Glob "dashboards/*" }}
-  {{- range $path, $file := $files }}
-  {{ $filename := base $path }}
-  {{ $filename }}: |
-{{- toString $file | nindent 4 }}
+  {{- range $path, $file := $chunk }}
+  {{ $filename := base $path }}: |
+{{ toString $file | nindent 4 }}
+  {{- end }}
+---
 {{- end }}
