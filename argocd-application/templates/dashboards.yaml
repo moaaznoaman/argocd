@@ -1,24 +1,14 @@
----
-{{- $files := .Files.Glob "dashboards/*" }}
-{{- $fileList := list }}
-{{- range $path, $file := $files }}
-  {{- $fileList = append $fileList (dict "path" $path "file" $file) }}
-{{- end }}
-
-{{- $chunks := $fileList | chunk 3 }}
-{{- range $i, $chunk := $chunks }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: filia-dashboards-configmap-{{ $i }}
+  name: filia-dashboards-configmap
   namespace: monitoring
   labels:
     grafana_dashboard: "filia"
 data:
-  {{- range $entry := $chunk }}
-  {{- $filename := base $entry.path }}
+  {{- $files := .Files.Glob "dashboards/*" }}
+  {{- range $path, $file := $files }}
+  {{ $filename := base $path }}
   {{ $filename }}: |
-{{ $entry.file | toString | nindent 4 }}
-  {{- end }}
----
+{{- toString $file | nindent 4 }}
 {{- end }}
