@@ -1,20 +1,6 @@
-# apiVersion: v1
-# kind: ConfigMap
-# metadata:
-#   name: filia-dashboards-configmap
-#   namespace: monitoring
-#   labels:
-#     grafana_dashboard: "filia"
-# data:
-#   {{- $files := .Files.Glob "dashboards/*" }}
-#   {{- range $path, $file := $files }}
-#   {{ $filename := base $path }}
-#   {{ $filename }}: |
-# {{- toString $file | nindent 4 }}
-# {{- end }}
-
+---
 {{- $files := .Files.Glob "dashboards/*" }}
-{{- $fileList := slice }}
+{{- $fileList := list }}
 {{- range $path, $file := $files }}
   {{- $fileList = append $fileList (dict "path" $path "file" $file) }}
 {{- end }}
