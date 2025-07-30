@@ -14,7 +14,7 @@
 # {{- end }}
 
 {{- $files := .Files.Glob "dashboards/*" }}
-{{- $fileList := list }}
+{{- $fileList := slice }}
 {{- range $path, $file := $files }}
   {{- $fileList = append $fileList (dict "path" $path "file" $file) }}
 {{- end }}
@@ -29,10 +29,10 @@ metadata:
   labels:
     grafana_dashboard: "filia"
 data:
-  {{- range $chunk }}
-  {{- $filename := base .path }}
+  {{- range $entry := $chunk }}
+  {{- $filename := base $entry.path }}
   {{ $filename }}: |
-{{ toString .file | nindent 4 }}
+{{ $entry.file | toString | nindent 4 }}
   {{- end }}
 ---
 {{- end }}
