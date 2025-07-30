@@ -1,3 +1,17 @@
+{{- $files := .Files.Glob "dashboards/*" }}
+{{- $mainDashboards := dict }}
+{{- $rabbitmqDashboard := "" }}
+
+{{- range $path, $file := $files }}
+  {{- $filename := base $path }}
+  {{- if eq $filename "rabbitmq.json" }}
+    {{- $rabbitmqDashboard = dict "name" $filename "content" $file }}
+  {{- else }}
+    {{- $_ := set $mainDashboards $filename $file }}
+  {{- end }}
+{{- end }}
+
+# ConfigMap for all dashboards except rabbitmq.json
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,9 +20,21 @@ metadata:
   labels:
     grafana_dashboard: "filia"
 data:
-  {{- $files := .Files.Glob "dashboards/*" }}
-  {{- range $path, $file := $files }}
-  {{ $filename := base $path }}
+{{- range $filename, $file := $mainDashboards }}
   {{ $filename }}: |
-{{- toString $file | nindent 4 }}
+{{ $file | toString | nindent 4 }}
+{{- end }}
+---
+# Separate ConfigMap just for rabbitmq.json
+{{- if $rabbitmqDashboard }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filia-dashboards-configmap-rabbitmq
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "filia"
+data:
+  {{ $rabbitmqDashboard.name }}: |
+{{ $rabbitmqDashboard.content | toString | nindent 4 }}
 {{- end }}
