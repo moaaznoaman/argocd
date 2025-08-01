@@ -30,7 +30,7 @@ metadata:
   name: health-app
   namespace: healthcheck
   annotations:
-    blackbox.io/enabled: true
+    blackbox.io/enabled: "true"
     blackbox.io/path: "/health"  # <-- important for Prometheus Blackbox discovery
   labels:
     blackbox.io/path: "/health"
