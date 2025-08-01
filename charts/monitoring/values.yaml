@@ -261,26 +261,26 @@ kube-prometheus-stack:
             target_label: kubernetes_name
           - target_label: job
             replacement: blackbox-kubernetes-tcp
-        - job_name: 'blackbox-http-services'
-          metrics_path: /probe
-          params:
-            module: [http_2xx]
-          kubernetes_sd_configs:
-            - role: service
-          relabel_configs:
-            - source_labels: [__meta_kubernetes_service_label_monitor_http]
-              regex: true
-              action: keep
-            - source_labels: [__address__]
-              regex: (.*):\d+
-              replacement: http://${1}:80
-              target_label: __param_target
-            - target_label: __address__
-              replacement: prometheus-prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
-            - source_labels: [__meta_kubernetes_namespace]
-              target_label: kubernetes_namespace
-            - source_labels: [__meta_kubernetes_service_name]
-              target_label: kubernetes_name
+      - job_name: 'blackbox-http-services'
+        metrics_path: /probe
+        params:
+          module: [http_2xx]
+        kubernetes_sd_configs:
+          - role: service
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_label_monitor_http]
+            regex: true
+            action: keep
+          - source_labels: [__address__]
+            regex: (.*):\d+
+            replacement: http://${1}:80
+            target_label: __param_target
+          - target_label: __address__
+            replacement: prometheus-prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: kubernetes_namespace
+          - source_labels: [__meta_kubernetes_service_name]
+            target_label: kubernetes_name
       portName: http
       resources:
         limits:
