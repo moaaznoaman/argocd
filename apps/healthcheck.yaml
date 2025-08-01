@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/mrnoaman/simple-health-api:latest  # ✅ Public image with /api/health
+          image: nginxdemos/hello:latest
           ports:
             - containerPort: 8080
 ---
@@ -30,7 +30,7 @@ metadata:
   name: health-app
   namespace: healthcheck
   annotations:
-    blackbox.io/path: "/api/health"  # <-- important for Prometheus Blackbox discovery
+    blackbox.io/path: "/health"  # <-- important for Prometheus Blackbox discovery
   labels:
     monitor.http: "true"
 spec:
