@@ -30,7 +30,7 @@ metadata:
   name: nginx
   namespace: app1
   labels:
-    monitor: "true"  # <-- important for Prometheus Blackbox discovery
+    monitor.http: "true"  # <-- important for Prometheus Blackbox discovery
 spec:
   selector:
     app: nginx
@@ -118,7 +118,7 @@ metadata:
   name: nginx
   namespace: app2
   labels:
-    monitor: "true"  # Important for Prometheus Blackbox discovery
+    monitor.http: "true"  # Important for Prometheus Blackbox discovery
 spec:
   selector:
     app: nginx
