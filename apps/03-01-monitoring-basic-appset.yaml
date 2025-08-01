@@ -23,9 +23,9 @@ spec:
    spec:
      project: infra
      sources:
-       - repoURL: git@github.com:moaaznoaman/argocd-variables.git
-         targetRevision: "{{ .metadata.labels.envBranch }}"
-         ref: values
+      #  - repoURL: git@github.com:moaaznoaman/argocd-variables.git
+      #    targetRevision: "{{ .metadata.labels.envBranch }}"
+      #    ref: values
        - repoURL: "git@github.com:moaaznoaman/argocd.git"
          path: charts/monitoring
          targetRevision: HEAD # "{{ .metadata.labels.gitopsBranch }}"
@@ -35,7 +35,6 @@ spec:
            valueFiles:
              - "values.yaml"
              - "$values/environments/{{ .metadata.labels.env }}/monitoring-basic-values.yaml"
-#              - "$valuesnew/environments/{{ .metadata.labels.env }}/values.yaml"
            values: |
               prometheus-blackbox-exporter:
                 enabled: true
