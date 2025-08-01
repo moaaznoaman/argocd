@@ -9,8 +9,7 @@ spec:
    - clusters:
        selector:
          matchExpressions:
-            - { key: "env", operator: In, values: [ "prod" ] }
-          #  - { key: "cluster", operator: In, values: ["in-cluster"] }
+           - { key: "cluster", operator: In, values: ["in-cluster"] }
  template:
    metadata:
      name: "{{ .name }}-basic-monitoring"
@@ -44,15 +43,9 @@ spec:
                   targets:
                     {{- $ctx := . }}
                     {{- $fsps := splitList "_" (default "" $ctx.metadata.labels.fsps) }}
-                    {{- $staticSuffixes := list "sso" "cb" "monitor" "docs" "fds" "api-org1" }}
-                    {{- $prefixes := list }}
-                    {{- range $suffix := $staticSuffixes }}
-                    {{- $prefixes = append $prefixes $suffix }}
-                    {{- end }}
-                    {{- range $fsp := $fsps }}
-                    {{- $prefixes = append $prefixes $fsp }}
-                    {{- $prefixes = append $prefixes (printf "fsp-%s-pp" $fsp) }}
-                    {{- $prefixes = append $prefixes (printf "scs-%s-scs" $fsp) }}
+                    {{- $prefixes := $fsps }}
+                    {{- range $suffix := list "sso" "cb" "monitor" "docs" }}
+                      {{- $prefixes = append $prefixes $suffix }}
                     {{- end }}
                     {{- range $prefix := $prefixes }}
                     - name: {{ $prefix }}.{{ $ctx.metadata.labels.domain }}
@@ -60,7 +53,7 @@ spec:
                       interval: 60s
                       scrapeTimeout: 60s
                       additionalMetricsRelabels:
-                        instance: "{{- if eq $prefix "governance" }}Governance{{- else if eq $prefix "cb" }}CBx{{- else if eq $prefix "sso" }}Keycloak{{- else if eq $prefix "monitor" }}Monitoring{{- else if eq $prefix "docs" }}Docs{{- else if hasPrefix "fsp-" $prefix }}FSPx-PP-{{ title (index (splitList "-" $prefix) 1) }}{{- else if hasPrefix "scs-" $prefix }}SCSx-{{ title (index (splitList "-" $prefix) 1) }}{{- else }}FSPx-{{ title $prefix }}{{- end }}"
+                        instance: "{{- if eq $prefix "governance" }}Governance{{- else if eq $prefix "cb" }}CBx{{- else if eq $prefix "sso" }}Keycloak{{- else if eq $prefix "monitor" }}Monitoring{{- else if eq $prefix "docs" }}Docs{{- else }}FSPx-{{ title $prefix }}{{ end }}"
                     {{- end }}
                prometheusSpec:
                  admissionWebhooks:
