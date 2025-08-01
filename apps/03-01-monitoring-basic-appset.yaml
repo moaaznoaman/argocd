@@ -54,35 +54,35 @@ spec:
                       additionalMetricsRelabels:
                         instance: "{{- if eq $prefix "governance" }}Governance{{- else if eq $prefix "cb" }}CBx{{- else if eq $prefix "sso" }}Keycloak{{- else if eq $prefix "monitor" }}Monitoring{{- else if eq $prefix "docs" }}Docs{{- else }}FSPx-{{ title $prefix }}{{ end }}"
                     {{- end }}
-               prometheusSpec:
-                 admissionWebhooks:
-                   patch:
-                     enabled: false
-                 additionalScrapeConfigs:
-                 - job_name: 'kube-prometheus'
-                   kubernetes_sd_configs:
-                     - role: endpoints
-                   relabel_configs:
-                     - source_labels: []
-                       separator: ;
-                       regex: .*
-                       target_label: cluster
-                       replacement: "demo-services"
-                 - honor_labels: true
-                   job_name: federate
-                   metrics_path: /federate
-                   params:
-                     match[]:
-                     - '{nonexistant=""}'
-                   scrape_interval: 15s
-                   static_configs:
-                   - targets:
-                     - prometheus-kube-prometheus-prometheus.monitoring.svc:9090
-               prometheus:
-                 annotations:
-                   argocd.argoproj.io/skip-health-check: 'true'
-               grafana:
-                 enabled: true
+              prometheusSpec:
+                admissionWebhooks:
+                  patch:
+                    enabled: false
+                additionalScrapeConfigs:
+                - job_name: 'kube-prometheus'
+                  kubernetes_sd_configs:
+                    - role: endpoints
+                  relabel_configs:
+                    - source_labels: []
+                      separator: ;
+                      regex: .*
+                      target_label: cluster
+                      replacement: "demo-services"
+                - honor_labels: true
+                  job_name: federate
+                  metrics_path: /federate
+                  params:
+                    match[]:
+                    - '{nonexistant=""}'
+                  scrape_interval: 15s
+                  static_configs:
+                  - targets:
+                    - prometheus-kube-prometheus-prometheus.monitoring.svc:9090
+              prometheus:
+                annotations:
+                  argocd.argoproj.io/skip-health-check: 'true'
+              grafana:
+                enabled: true
            parameters:
              - name: kube-prometheus-stack.enabled
                value: "true"
