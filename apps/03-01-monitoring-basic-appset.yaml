@@ -9,7 +9,8 @@ spec:
    - clusters:
        selector:
          matchExpressions:
-           - { key: "cluster", operator: In, values: ["in-cluster"] }
+            - { key: "env", operator: In, values: [ "prod" ] }
+          #  - { key: "cluster", operator: In, values: ["in-cluster"] }
  template:
    metadata:
      name: "{{ .name }}-basic-monitoring"
