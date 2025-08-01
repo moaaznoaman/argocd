@@ -31,6 +31,7 @@ metadata:
   namespace: healthcheck
   annotations:
     blackbox.io/enabled: "true"
+    blackbox.io/schema: "8080"
     blackbox.io/path: "/health"  # <-- important for Prometheus Blackbox discovery
   # labels:
   #   blackbox.io/path: "/health"
