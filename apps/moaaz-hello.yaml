@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: moaazrefat/hello:latest
+          image: moazrefat/hello:latest
           ports:
             - containerPort: 8080
 ---
