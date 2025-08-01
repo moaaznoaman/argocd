@@ -36,6 +36,7 @@ spec:
              - "values.yaml"
              - "$values/environments/{{ .metadata.labels.env }}/monitoring-basic-values.yaml"
            values: |
+           
               prometheus-blackbox-exporter:
                 enabled: true
                 serviceMonitor:
