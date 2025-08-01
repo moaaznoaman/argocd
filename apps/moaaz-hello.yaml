@@ -32,7 +32,7 @@ metadata:
   annotations:
     blackbox.io/enabled: "true"
     blackbox.io/schema: "http"
-    blackbox.io/path: "/api/health"
+    blackbox.io/path: "/api/healthd"
   # labels:
   #   blackbox.io/path: "/health"
 spec:
