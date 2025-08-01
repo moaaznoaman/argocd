@@ -1,62 +1,62 @@
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: external-secret-operator
-spec:
-  goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
-  generators:
-    - clusters:
-        selector:
-          matchExpressions:
-            - {
-                key: "cluster",
-                operator: In,
-                values: ["in-cluster"],
-              }
-  template:
-    metadata:
-      name: "{{ .name }}-external-secret-operator"
-      labels:
-        env: "{{ .metadata.labels.env }}"
-        app: "infra"
-        envType: "{{ .metadata.labels.env }}"
-        appset: monitoring
-      annotations:
-        argocd.argoproj.io/sync-wave: '-2'
-    spec:
-      project: infra
-      sources:
-        - repoURL: git@github.com:moaaznoaman/argocd-variables.git
-          targetRevision: "{{ .metadata.labels.envBranch }}"
-          ref: values
-        - repoURL: "git@github.com:moaaznoaman/argocd.git"
-          targetRevision: "HEAD"
-          path: "charts/base-infra"
-          helm:
-            ignoreMissingValueFiles: true
-            valueFiles:
-              - "values.yaml"
-              - "$values/environments/{{ .metadata.labels.env }}/external-secrets-values.yaml"
-            parameters:
-              - name: "envType"
-                value: "Dev" # "{{ .metadata.labels.env }}"
-              - name: suiteVaultUrl
-                value: "https://ops-secrets-store.vault.azure.net/"
-      destination:
-        name: "{{ .name }}"
-        namespace: external-secrets #TODO: check this
-      syncPolicy:
-        automated:
-          selfHeal: true
-        syncOptions:
-          - ServerSideApply=true # Big CRDs.
-          - preserveResourcesOnDeletion=true
-          - Retry=true
-          - CreateNamespace=true
-        retry:
-          limit: 5 # Maximum number of retries
-          backoff:
-            duration: 5s # Initial retry interval
-            factor: 2 # Multiplication factor for the backoff
-            maxDuration: 3m # Maximum retry interval
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: external-secret-operator
+# spec:
+#   goTemplate: true
+#   goTemplateOptions: ["missingkey=error"]
+#   generators:
+#     - clusters:
+#         selector:
+#           matchExpressions:
+#             - {
+#                 key: "cluster",
+#                 operator: In,
+#                 values: ["in-cluster"],
+#               }
+#   template:
+#     metadata:
+#       name: "{{ .name }}-external-secret-operator"
+#       labels:
+#         env: "{{ .metadata.labels.env }}"
+#         app: "infra"
+#         envType: "{{ .metadata.labels.env }}"
+#         appset: monitoring
+#       annotations:
+#         argocd.argoproj.io/sync-wave: '-2'
+#     spec:
+#       project: infra
+#       sources:
+#         - repoURL: git@github.com:moaaznoaman/argocd-variables.git
+#           targetRevision: "{{ .metadata.labels.envBranch }}"
+#           ref: values
+#         - repoURL: "git@github.com:moaaznoaman/argocd.git"
+#           targetRevision: "HEAD"
+#           path: "charts/base-infra"
+#           helm:
+#             ignoreMissingValueFiles: true
+#             valueFiles:
+#               - "values.yaml"
+#               - "$values/environments/{{ .metadata.labels.env }}/external-secrets-values.yaml"
+#             parameters:
+#               - name: "envType"
+#                 value: "Dev" # "{{ .metadata.labels.env }}"
+#               - name: suiteVaultUrl
+#                 value: "https://ops-secrets-store.vault.azure.net/"
+#       destination:
+#         name: "{{ .name }}"
+#         namespace: external-secrets #TODO: check this
+#       syncPolicy:
+#         automated:
+#           selfHeal: true
+#         syncOptions:
+#           - ServerSideApply=true # Big CRDs.
+#           - preserveResourcesOnDeletion=true
+#           - Retry=true
+#           - CreateNamespace=true
+#         retry:
+#           limit: 5 # Maximum number of retries
+#           backoff:
+#             duration: 5s # Initial retry interval
+#             factor: 2 # Multiplication factor for the backoff
+#             maxDuration: 3m # Maximum retry interval
