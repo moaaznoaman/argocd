@@ -232,7 +232,8 @@ kube-prometheus-stack:
         static_configs:
         - targets:
           - prometheus-kube-prometheus-prometheus.monitoring.svc:9090
-      - job_name: 'blackbox-tcp-tcp'
+
+      - job_name: 'blackbox-tcp-services'
         metrics_path: /probe
         params:
           module: [tcp_connect]

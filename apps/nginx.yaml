@@ -90,7 +90,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx
-  namespace: app2
+  namespace: app1
 spec:
   replicas: 1
   selector:
@@ -105,12 +105,7 @@ spec:
         - name: nginx
           image: nginx:1.25
           ports:
-            - containerPort: 4545  # Container listens on 4545
-          command: ["/bin/sh", "-c"]
-          args:
-            - |
-              sed -i 's/80/4545/' /etc/nginx/conf.d/default.conf && \
-              nginx -g 'daemon off;'
+            - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
@@ -123,7 +118,7 @@ spec:
   selector:
     app: nginx
   ports:
-    - port: 4545        # Service exposed on port 4545
-      targetPort: 4545  # Must match containerPort
+    - port: 80        # Service exposed on port 4545
+      targetPort: 80  # Must match containerPort
       protocol: TCP
       name: http
