@@ -32,7 +32,7 @@ metadata:
   annotations:
     blackbox.io/enabled: "true"
     blackbox.io/schema: "8080"
-    blackbox.io/path: "/"  # <-- important for Prometheus Blackbox discovery
+    blackbox.io/path: "/"
   # labels:
   #   blackbox.io/path: "/health"
 spec:
