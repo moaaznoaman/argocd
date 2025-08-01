@@ -157,16 +157,16 @@ kube-prometheus-stack:
             name: prometheus
             type: prometheus
             url: http://prometheus-kube-prometheus-prometheus.monitoring.svc:9090
-        apiVersion: 1
-        datasources:
-          - name: Loki
-            type: loki
-            url: 'http://prometheus-loki-gateway.monitoring.svc.cluster.local'
-            access: proxy
-            basicAuth: true
-            basicAuthUser: loki # $__env{USERNAME}
-            secureJsonData:
-              basicAuthPassword: lokipassword # $__env{PASSWORD}
+        # apiVersion: 1
+        # datasources:
+        #   - name: Loki
+        #     type: loki
+        #     url: 'http://prometheus-loki-gateway.monitoring.svc.cluster.local'
+        #     access: proxy
+        #     basicAuth: true
+        #     basicAuthUser: loki # $__env{USERNAME}
+        #     secureJsonData:
+        #       basicAuthPassword: lokipassword # $__env{PASSWORD}
     grafana.ini:
       auth.anonymous:
         enabled: false
