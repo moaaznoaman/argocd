@@ -307,7 +307,7 @@ kube-prometheus-stack:
             regex: __meta_kubernetes_ingress_annotation_blackbox_io_module
             replacement: __param_module
           - target_label: __address__
-            replacement: blackbox-exporter:9115
+            replacement: prometheus-prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
           - source_labels: [__param_target]
             target_label: instance
           - source_labels: [__meta_kubernetes_namespace]
