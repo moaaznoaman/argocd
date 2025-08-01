@@ -44,7 +44,7 @@ spec:
                     {{- $ctx := . }}
                     {{- $fsps := splitList "_" (default "" $ctx.metadata.labels.fsps) }}
                     {{- $prefixes := $fsps }}
-                    {{- range $suffix := list "sso" "cb" "monitor" "docs" }}
+                    {{- range $suffix := list "sso" "cb" "monitor" "docs" "api-org1" "governance" }}
                       {{- $prefixes = append $prefixes $suffix }}
                     {{- end }}
                     {{- range $prefix := $prefixes }}
@@ -94,7 +94,7 @@ spec:
                       replacement: http://${1}:80
                       target_label: __param_target
                     - target_label: __address__
-                      replacement: prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
+                      replacement: prometheus-prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
                     - source_labels: [__meta_kubernetes_namespace]
                       target_label: kubernetes_namespace
                     - source_labels: [__meta_kubernetes_service_name]
