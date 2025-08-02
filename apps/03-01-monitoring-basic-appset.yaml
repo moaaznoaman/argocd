@@ -79,13 +79,13 @@ spec:
                       job_name: federate
                       metrics_path: /federate
                       params:
-                        match[]:
+                        'match[]':
                         - '{nonexistant=""}'
                       scrape_interval: 15s
                       static_configs:
                       - targets:
-                        - prometheus-kube-prometheus-prometheus.monitoring.svc:9090
-                        - 10.110.75.96:9090
+                        - "prometheus-kube-prometheus-prometheus.monitoring.svc:9090"
+                        - "10.106.54.228:9090"
                     - job_name: "blackbox-health/services"
                       metrics_path: /probe
                       params:
