@@ -42,6 +42,8 @@ spec:
                 prometheusRule: 
                   enabled: false
               kube-prometheus-stack:    
+                grafana:
+                  enabled: false
                 prometheus:
                   annotations:
                     argocd.argoproj.io/skip-health-check: 'true'
@@ -79,8 +81,6 @@ spec:
                           target_label: kubernetes_namespace
                         - source_labels: [__meta_kubernetes_service_name]
                           target_label: kubernetes_name
-                grafana:
-                  enabled: false
            parameters:
              - name: kube-prometheus-stack.enabled
                value: "true"
