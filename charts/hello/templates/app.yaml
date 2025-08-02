@@ -37,7 +37,7 @@ metadata:
   #   blackbox.io/path: "/health"
 spec:
   selector:
-    app: hello
+    app: hello-vcluster2
   ports:
     - port: 8080
       targetPort: 8080
