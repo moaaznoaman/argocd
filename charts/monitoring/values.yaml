@@ -232,7 +232,7 @@ kube-prometheus-stack:
         static_configs:
         - targets:
           - prometheus-kube-prometheus-prometheus.monitoring.svc:9090
-
+          # - 10.110.75.96:9090
 #### TCP Services Monitoring
       # - job_name: 'blackbox-tcp-services'
       #   metrics_path: /probe

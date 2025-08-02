@@ -23,9 +23,9 @@ spec:
    spec:
      project: infra
      sources:
-       - repoURL: git@github.com:moaaznoaman/argocd-variables.git
-         targetRevision: "{{ .metadata.labels.envBranch }}"
-         ref: values
+      #  - repoURL: git@github.com:moaaznoaman/argocd-variables.git
+      #    targetRevision: "{{ .metadata.labels.envBranch }}"
+      #    ref: values
        - repoURL: "git@github.com:moaaznoaman/argocd.git"
          path: charts/monitoring
          targetRevision: HEAD # "{{ .metadata.labels.gitopsBranch }}"
@@ -34,7 +34,7 @@ spec:
            releaseName: "prometheus"
            valueFiles:
              - "values.yaml"
-             - "$values/environments/{{ .metadata.labels.env }}/monitoring-basic-values.yaml"
+            #  - "$values/environments/{{ .metadata.labels.env }}/monitoring-basic-values.yaml"
            values: |
 
               prometheus-blackbox-exporter:
@@ -57,56 +57,57 @@ spec:
                     {{- end }}
                 prometheusRule: 
                   enabled: false
-              prometheus:
-                annotations:
-                  argocd.argoproj.io/skip-health-check: 'true'
-                prometheusSpec:
-                  admissionWebhooks:
-                    patch:
-                      enabled: false
-                  additionalScrapeConfigs:
-                  - job_name: 'kube-prometheus'
-                    kubernetes_sd_configs:
-                      - role: endpoints
-                    relabel_configs:
-                      - source_labels: []
-                        separator: ;
-                        regex: .*
-                        target_label: cluster
-                        replacement: "demo-services"
-                  - honor_labels: true
-                    job_name: federate
-                    metrics_path: /federate
-                    params:
-                      match[]:
-                      - '{nonexistant=""}'
-                    scrape_interval: 15s
-                    static_configs:
-                    - targets:
-                      - prometheus-kube-prometheus-prometheus.monitoring.svc:9090
-                      - 10.110.75.96:9090
-                  - job_name: 'blackbox-kubernetes-services'
-                    metrics_path: /probe
-                    params:
-                      module: [http_2xx]
-                    kubernetes_sd_configs:
-                      - role: service
-                    relabel_configs:
-                      - source_labels: [__meta_kubernetes_service_label_monitor]
-                        regex: true
-                        action: keep
-                      - source_labels: [__address__]
-                        regex: (.*):\d+
-                        replacement: http://${1}:80
-                        target_label: __param_target
-                      - target_label: __address__
-                        replacement: prometheus-prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
-                      - source_labels: [__meta_kubernetes_namespace]
-                        target_label: kubernetes_namespace
-                      - source_labels: [__meta_kubernetes_service_name]
-                        target_label: kubernetes_name
-              grafana:
-                enabled: true
+              kube-prometheus-stack:
+                prometheus:
+                  annotations:
+                    argocd.argoproj.io/skip-health-check: 'true'
+                  prometheusSpec:
+                    admissionWebhooks:
+                      patch:
+                        enabled: false
+                    additionalScrapeConfigs:
+                    - job_name: 'kube-prometheus'
+                      kubernetes_sd_configs:
+                        - role: endpoints
+                      relabel_configs:
+                        - source_labels: []
+                          separator: ;
+                          regex: .*
+                          target_label: cluster
+                          replacement: "demo-services"
+                    - honor_labels: true
+                      job_name: federate
+                      metrics_path: /federate
+                      params:
+                        match[]:
+                        - '{nonexistant=""}'
+                      scrape_interval: 15s
+                      static_configs:
+                      - targets:
+                        - prometheus-kube-prometheus-prometheus.monitoring.svc:9090
+                        - 10.110.75.96:9090
+                    - job_name: 'blackbox-kubernetes-services'
+                      metrics_path: /probe
+                      params:
+                        module: [http_2xx]
+                      kubernetes_sd_configs:
+                        - role: service
+                      relabel_configs:
+                        - source_labels: [__meta_kubernetes_service_label_monitor]
+                          regex: true
+                          action: keep
+                        - source_labels: [__address__]
+                          regex: (.*):\d+
+                          replacement: http://${1}:80
+                          target_label: __param_target
+                        - target_label: __address__
+                          replacement: prometheus-prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
+                        - source_labels: [__meta_kubernetes_namespace]
+                          target_label: kubernetes_namespace
+                        - source_labels: [__meta_kubernetes_service_name]
+                          target_label: kubernetes_name
+                grafana:
+                  enabled: true
            parameters:
              - name: kube-prometheus-stack.enabled
                value: "true"
