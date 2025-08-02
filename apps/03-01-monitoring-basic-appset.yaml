@@ -110,6 +110,8 @@ spec:
            parameters:
              - name: kube-prometheus-stack.enabled
                value: "true"
+            - name: kube-prometheus-stack.grafana.enabled
+               value: "false"
              - name: kube-prometheus-stack.prometheus.enabled
                value: "true"
              - name: promtail.enabled
