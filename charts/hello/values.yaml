@@ -1,0 +1,10 @@
+# pods:
+#   - system
+#   - ingress
+#   - monitoring
+#   - moaaz
+
+# environment: ""
+# servicename: ""
+
+# additionalNamespaces: []
