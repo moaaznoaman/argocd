@@ -131,7 +131,7 @@ kube-prometheus-stack:
             receiver: ops_monitoring_slack
   grafana:
     envFromSecret: "loki-secret-auth" # "loki-new-basic-auth"
-    enabled: true
+    enabled: false
     admin:
       existingSecret: "grafana-secret-creds"
     # dashboardProviders:
