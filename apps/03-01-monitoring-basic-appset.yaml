@@ -65,8 +65,7 @@ spec:
                     annotations:
                       blackbox.io/enabled: "true"
                       blackbox.io/schema: "http"
-                      blackbox.io/port-number: "9090"
-                      # blackbox.io/port-name: "http"
+                      blackbox.io/port-name: "http"
                       blackbox.io/path: "/-/healthy"
                   prometheusSpec:
                     admissionWebhooks:
