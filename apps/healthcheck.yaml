@@ -33,6 +33,7 @@ metadata:
     blackbox.io/enabled: "true"
     blackbox.io/schema: "http"
     blackbox.io/path: "/"
+    blackbox.io/port-name: "http"
   # labels:
   #   blackbox.io/path: "/health"
 spec:
@@ -41,3 +42,4 @@ spec:
   ports:
     - port: 8080
       targetPort: 80
+      name: http
