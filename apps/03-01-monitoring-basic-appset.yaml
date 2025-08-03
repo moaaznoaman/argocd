@@ -99,64 +99,66 @@ spec:
                       kubernetes_sd_configs:
                         - role: service
                       relabel_configs:
+                        # Only keep services with blackbox.io/enabled: "true"
                         - source_labels: [__meta_kubernetes_service_annotation_blackbox_io_enabled]
-                          action: keep
                           regex: true
-                        - source_labels:
-                            [__meta_kubernetes_service_annotation_blackbox_io_port_name, __meta_kubernetes_service_port_name]
-                          regex: (.+);${1}
                           action: keep
-                        - source_labels:
-                            [__meta_kubernetes_service_annotation_blackbox_io_port_number, __meta_kubernetes_service_port_number]
-                          regex: (.+);${1}
+
+                        # Keep only the port that matches annotation blackbox.io/port-name
+                        - source_labels: [__meta_kubernetes_service_annotation_blackbox_io_port_name, __meta_kubernetes_service_port_name]
+                          regex: (.+);(.+)
                           action: keep
+                          # Match only if annotation matches the port name
+                          replacement: "${1}"
+   
+                        # OR keep the port that matches annotation blackbox.io/port-number
+                        - source_labels: [__meta_kubernetes_service_annotation_blackbox_io_port_number, __meta_kubernetes_service_port_number]
+                          regex: (.+);(.+)
+                          action: keep
+                          replacement: "${1}"
+
+                        # Set the scheme based on port name (http or https)
                         - source_labels: [__meta_kubernetes_service_port_name]
-                          regex: "(https?)"
+                          regex: (https?)
                           target_label: __scheme__
                           replacement: "$1"
 
-                        # Override scheme with annotation blackbox.io/scheme
+                        # Override scheme with annotation
                         - source_labels: [__meta_kubernetes_service_annotation_blackbox_io_scheme]
-                          regex: "(http|https)"
+                          regex: (http|https)
                           target_label: __scheme__
                           replacement: "$1"
 
-                        # Default path if no annotation is present
+                        # Set default path
                         - source_labels: [__scheme__, __address__]
-                          regex: "(.+);(.+):(.+)"
+                          regex: (.+);(.+)
                           target_label: __param_target
-                          replacement: "${1}://$2:$3/api/health"
+                          replacement: "${1}://${2}/api/health"
 
-                        # Override path with annotation blackbox.io/path
-                        - source_labels:
-                            [__scheme__, __address__, __meta_kubernetes_service_annotation_blackbox_io_path]
-                          regex: "(.+);(.+);(.+)"
+                        # Override path if annotation exists
+                        - source_labels: [__scheme__, __address__, __meta_kubernetes_service_annotation_blackbox_io_path]
+                          regex: (.+);(.+);(.+)
+                          target_label: __param_target
                           replacement: ${1}://${2}${3}
-                          target_label: __param_target
 
-                        # Override module if annotation exists
-                        - action: labelmap
-                          regex: __meta_kubernetes_ingress_annotation_blackbox_io_module
-                          replacement: __param_module
-
-                        # Send request to blackbox exporter service
+                        # Send to blackbox exporter
                         - target_label: __address__
                           replacement: prometheus-prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
 
-                        # Set instance label (actual probe target)
+                        # Set useful labels
                         - source_labels: [__param_target]
                           target_label: instance
-
                         - source_labels: [__meta_kubernetes_namespace]
                           target_label: namespace
                         - source_labels: [__meta_kubernetes_service_name]
                           target_label: service
 
-                        # Optional: support custom Host header via annotation
+                        # Hostname header override
                         - source_labels: [__meta_kubernetes_service_annotation_blackbox_io_hostname]
                           target_label: __param_hostname
                         - source_labels: [__meta_kubernetes_service_annotation_blackbox_io_hostname]
                           target_label: hostname
+
                         
                     # - job_name: "blackbox-health/services"
                     #   metrics_path: /probe
