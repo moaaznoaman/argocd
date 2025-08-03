@@ -146,35 +146,35 @@ spec:
                           target_label: __scheme__
                           replacement: "$1"
 
-                          # Default path construction
-                          - source_labels: [__scheme__, __address__]
-                            regex: "(.+);(.+):(.+)"
-                            target_label: __param_target
-                            replacement: "${1}://$2:$3/api/health"
+                        # Default path construction
+                        - source_labels: [__scheme__, __address__]
+                          regex: "(.+);(.+):(.+)"
+                          target_label: __param_target
+                          replacement: "${1}://$2:$3/api/health"
 
-                          # Override path via annotation
-                          - source_labels:
-                              [__scheme__, __address__, __meta_kubernetes_service_annotation_blackbox_io_path]
-                            regex: "(.+);(.+);(.+)"
-                            target_label: __param_target
-                            replacement: ${1}://${2}${3}
+                        # Override path via annotation
+                        - source_labels:
+                            [__scheme__, __address__, __meta_kubernetes_service_annotation_blackbox_io_path]
+                          regex: "(.+);(.+);(.+)"
+                          target_label: __param_target
+                          replacement: ${1}://${2}${3}
 
-                          # Blackbox target (static)
-                          - target_label: __address__
-                            replacement: prometheus-prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
+                        # Blackbox target (static)
+                        - target_label: __address__
+                          replacement: prometheus-prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
 
-                          - source_labels: [__param_target]
-                            target_label: instance
-                          - source_labels: [__meta_kubernetes_namespace]
-                            target_label: namespace
-                          - source_labels: [__meta_kubernetes_service_name]
-                            target_label: service
+                        - source_labels: [__param_target]
+                          target_label: instance
+                        - source_labels: [__meta_kubernetes_namespace]
+                          target_label: namespace
+                        - source_labels: [__meta_kubernetes_service_name]
+                          target_label: service
 
-                          # Optional Host header override
-                          - source_labels: [__meta_kubernetes_service_annotation_blackbox_io_hostname]
-                            target_label: __param_hostname
-                          - source_labels: [__meta_kubernetes_service_annotation_blackbox_io_hostname]
-                            target_label: hostname
+                        # Optional Host header override
+                        - source_labels: [__meta_kubernetes_service_annotation_blackbox_io_hostname]
+                          target_label: __param_hostname
+                        - source_labels: [__meta_kubernetes_service_annotation_blackbox_io_hostname]
+                          target_label: hostname
 
                         
                     # - job_name: "blackbox-health/services"
