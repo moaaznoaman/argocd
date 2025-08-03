@@ -47,6 +47,11 @@ spec:
                 prometheus:
                   annotations:
                     argocd.argoproj.io/skip-health-check: 'true'
+                  service:
+                    annotations:
+                      blackbox.io/enabled: "true"
+                      blackbox.io/schema: "http"
+                      blackbox.io/path: "/-/healthy"
                   prometheusSpec:
                     admissionWebhooks:
                       patch:
