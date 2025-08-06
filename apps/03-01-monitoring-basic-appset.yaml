@@ -104,7 +104,7 @@ spec:
                           action: keep
                           regex: true
                         - source_labels: [__meta_kubernetes_service_port_name]
-                          regex: ".*"
+                          regex: "^http.*"
                           action: keep
                         # Adds scheme depending on the service port name
                         - source_labels: [__meta_kubernetes_service_port_name]
