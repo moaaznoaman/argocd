@@ -39,22 +39,22 @@ spec:
 
               prometheus-blackbox-exporter:
                 enabled: true
-                serviceMonitor:
-                  targets:
-                    {{- $ctx := . }}
-                    {{- $fsps := splitList "_" (default "" $ctx.metadata.labels.fsps) }}
-                    {{- $prefixes := $fsps }}
-                    {{- range $suffix := list "sso" "cb" "monitor" "docs" "api-org1" "governance" }}
-                      {{- $prefixes = append $prefixes $suffix }}
-                    {{- end }}
-                    {{- range $prefix := $prefixes }}
-                    - name: {{ $prefix }}.{{ $ctx.metadata.labels.domain }}
-                      url: https://{{ $prefix }}.{{ $ctx.metadata.labels.domain }}
-                      interval: 60s
-                      scrapeTimeout: 60s
-                      additionalMetricsRelabels:
-                        instance: "{{- if eq $prefix "governance" }}Governance{{- else if eq $prefix "cb" }}CBx{{- else if eq $prefix "sso" }}Keycloak{{- else if eq $prefix "monitor" }}Monitoring{{- else if eq $prefix "docs" }}Docs{{- else }}FSPx-{{ title $prefix }}{{ end }}"
-                    {{- end }}
+                # serviceMonitor:
+                #   targets:
+                #     {{- $ctx := . }}
+                #     {{- $fsps := splitList "_" (default "" $ctx.metadata.labels.fsps) }}
+                #     {{- $prefixes := $fsps }}
+                #     {{- range $suffix := list "sso" "cb" "monitor" "docs" "api-org1" "governance" }}
+                #       {{- $prefixes = append $prefixes $suffix }}
+                #     {{- end }}
+                #     {{- range $prefix := $prefixes }}
+                #     - name: {{ $prefix }}.{{ $ctx.metadata.labels.domain }}
+                #       url: https://{{ $prefix }}.{{ $ctx.metadata.labels.domain }}
+                #       interval: 60s
+                #       scrapeTimeout: 60s
+                #       additionalMetricsRelabels:
+                #         instance: "{{- if eq $prefix "governance" }}Governance{{- else if eq $prefix "cb" }}CBx{{- else if eq $prefix "sso" }}Keycloak{{- else if eq $prefix "monitor" }}Monitoring{{- else if eq $prefix "docs" }}Docs{{- else }}FSPx-{{ title $prefix }}{{ end }}"
+                #     {{- end }}
                 prometheusRule: 
                   enabled: false
               kube-prometheus-stack:
