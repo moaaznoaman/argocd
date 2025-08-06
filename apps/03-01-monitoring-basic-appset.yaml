@@ -103,9 +103,8 @@ spec:
                         - source_labels: [__meta_kubernetes_service_annotation_blackbox_io_enabled]
                           action: keep
                           regex: true
-                        # Only keep ports named "http" (modify this to match your port naming)
                         - source_labels: [__meta_kubernetes_service_port_name]
-                          regex: "http"
+                          regex: ".*"
                           action: keep
                         # Adds scheme depending on the service port name
                         - source_labels: [__meta_kubernetes_service_port_name]
