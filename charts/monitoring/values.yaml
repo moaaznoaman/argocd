@@ -70,7 +70,7 @@ kube-prometheus-stack:
   namespaceOverride: "monitoring"
   # fullnameOverride: "demo-services"
   alertmanager:
-    enabled: false
+    enabled: true
     alertmanagerSpec:
       logLevel: info
       secrets:
