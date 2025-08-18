@@ -1,0 +1,90 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgres
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    chart: postgresql
+    repoURL: "registry-1.docker.io/bitnamicharts"
+    targetRevision: "16.7.21"
+    helm:
+      releaseName: "postgresql"
+      values: |
+        global:
+          # defaultStorageClass: premium2-disk-sc
+        auth:
+          existingSecret: "postgres-credentials"
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
+            labels:
+              release: prometheus
+        primary:
+          podAnnotations:
+            {{ merge .Values.postgres.podAnnotations .Values.podAnnotations | toYaml | nindent 12 }}
+          configuration: |
+            listen_addresses = '*'
+            port = '5432'
+            max_wal_size = '400MB'
+            min_wal_size = '128MB'
+            log_connections = 'false'
+            log_disconnections = 'false'
+            log_hostname = 'false'
+            client_min_messages = 'error'
+            max_connections = {{ .Values.postgres.config.maxConnections }} 
+            shared_buffers = 256MB
+            work_mem = 4MB
+            maintenance_work_mem = 64MB
+            temp_buffers = 8MB
+            effective_cache_size = 256MB
+            fsync = 'on'
+            full_page_writes = 'on'
+            wal_level = 'minimal'
+            max_wal_senders = '0'
+            max_worker_processes = '4'
+          initdb:
+            scripts:
+              init.sh: |
+                PGPASSWORD="$POSTGRES_PASSWORD" psql -U postgres -d postgres << EOF
+                {{- range $user, $databases := .Values.postgres.users }}
+                CREATE USER {{ $user }} WITH PASSWORD '${POSTGRES_PASSWORD}';
+                {{- range $db := $databases }}
+                CREATE DATABASE {{ $db }};
+                GRANT ALL PRIVILEGES ON DATABASE {{ $db }} TO {{ $user }};
+                ALTER DATABASE {{ $db }} OWNER TO {{ $user }};
+                {{- end }}
+                {{- end }}
+                EOF
+        postgres:
+          users:
+            verifier:
+              - verifier
+            cb_pp:
+              - cb_pp_kek
+              - cb_pp_pp
+            cbms:
+              - cbms
+            fsp1_pp:
+              - fsp1_pp_kek
+              - fsp1_pp_pp
+            fsp1_scs:
+              - fsp1_scs
+            fsp2_pp:
+              - fsp2_pp_kek
+              - fsp2_pp_pp
+            fsp2_scs:
+              - fsp2_scs
+  destination:
+    namespace: postgres
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    # syncOptions:
+    # - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true
