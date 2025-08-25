@@ -35,7 +35,8 @@ spec:
               "service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path": "/healthz"
               "service.beta.kubernetes.io/azure-load-balancer-internal": "false"
             internal:
-              enabled: false
+              enabled: true
+            type: ClusterIP
           publishService:
             enabled: true
           ingressClass: public
