@@ -1,0 +1,81 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    chart: ingress-nginx
+    repoURL: "registry-1.docker.io/bitnamicharts"
+    targetRevision: "16.7.21"
+    helm:
+      releaseName: "ingress-nginx"
+      values: |
+        rbac:
+          create: true
+        controller:
+          podSecurityContext:
+            runAsNonRoot: true
+          admissionWebhooks:
+            timeoutSeconds: 30
+          ingressClassResource:
+            name: public
+            enabled: true
+            default: false
+            controllerValue: k8s.io/ingress-nginx
+          replicaCount: 1
+          service:
+            externalTrafficPolicy: Local
+            external:
+              enabled: true
+            annotations:
+              "service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path": "/healthz"
+              "service.beta.kubernetes.io/azure-load-balancer-internal": "false"
+            internal:
+              enabled: false
+          publishService:
+            enabled: true
+          ingressClass: public
+          autoscaling:
+            enabled: false
+            minReplicas: 1
+            maxReplicas: 10
+            targetCPUUtilizationPercentage: 40
+            targetMemoryUtilizationPercentage: 50
+            behavior:
+              scaleDown:
+                stabilizationWindowSeconds: 300
+                policies:
+                  - type: Percent
+                    value: 40
+                    periodSeconds: 60
+              scaleUp:
+                stabilizationWindowSeconds: 300
+                policies:
+                  - type: Percent
+                    value: 40
+                    periodSeconds: 60
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
+              additionalLabels:
+                release: prometheus
+                suite: "default"
+                filia/metrics: prometheus
+              # metricRelabelings:
+              #   - action: replace
+              #     replacement: "default"
+              #     targetLabel: suite
+  destination:
+    namespace: ingress
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    # syncOptions:
+    # - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true
