@@ -42,5 +42,24 @@ spec:
   ports:
     - port: 8080
       targetPort: 8080
-      name: http
-      
+      name: http   
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app.kubernetes.io/name: hello
+  name: hello
+spec:
+  ingressClassName: public
+  rules:
+  - host: hello.cluster.local
+    http:
+      paths:
+      - backend:
+          service:
+            name: hello
+            port:
+              number: 8080
+        path: /
+        pathType: ImplementationSpecific
