@@ -50,6 +50,7 @@ metadata:
   labels:
     app.kubernetes.io/name: hello
   name: hello
+  namespace: hello
 spec:
   ingressClassName: public
   rules:
