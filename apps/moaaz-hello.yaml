@@ -51,6 +51,12 @@ metadata:
     app.kubernetes.io/name: hello
   name: hello
   namespace: hello
+  annotations:
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location ~* ^/$ {
+        return 200 'hello world';
+        add_header Content-Type text/plain;
+      }
 spec:
   ingressClassName: public
   rules:
