@@ -28,7 +28,6 @@ spec:
             controllerValue: k8s.io/ingress-nginx
           replicaCount: 1
           service:
-            externalTrafficPolicy: Local
             external:
               enabled: true
             annotations:
