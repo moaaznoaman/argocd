@@ -74,8 +74,11 @@ spec:
     namespace: ingress
     server: https://kubernetes.default.svc
   syncPolicy:
-    # syncOptions:
-    # - CreateNamespace=true
+    syncOptions:
+      - ServerSideApply=true # Big CRDs.
+      - preserveResourcesOnDeletion=true
+      - ApplyOutOfSyncOnly=true
+      - Retry=true
     automated:
       selfHeal: true
       prune: true
